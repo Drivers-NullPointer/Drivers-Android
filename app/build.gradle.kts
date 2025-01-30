@@ -1,9 +1,14 @@
+import kotlinx.kover.gradle.plugin.dsl.AggregationType
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.koverAndroidReport)
 }
+
 
 
 tasks.register("runTestsAndCheckCoverage") {
@@ -160,6 +165,42 @@ dependencies {
     testImplementation(libs.mockk)
     // Coroutines
     implementation(libs.kotlinx.coroutines.test)
+
 }
 
 
+kover{
+    reports{
+        filters{
+            excludes{
+                packages("**.ui**")
+                packages("**.model.*")
+                annotatedBy("androidx.compose.ui.tooling.preview.Preview")
+                annotatedBy("androidx.compose.runtime.Composable")
+            }
+        }
+        verify{
+            rule("Line coverage") {
+                bound{
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    coverageUnits = CoverageUnit.LINE
+                    minValue = 100
+                }
+            }
+            rule("Branch coverage") {
+                bound{
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    coverageUnits = CoverageUnit.BRANCH
+                    minValue = 100
+                }
+            }
+            rule("Instruction coverage") {
+                bound{
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    coverageUnits = CoverageUnit.INSTRUCTION
+                    minValue = 100
+                }
+            }
+        }
+    }
+}
