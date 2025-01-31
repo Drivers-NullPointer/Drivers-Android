@@ -28,7 +28,7 @@ jobs:
       run: ./gradlew koverVerifyDebug
 
     - name: Generate HTML Coverage Report
-      run: ./gradlew koverHtmlReport
+      run: ./gradlew koverHtmlReportDebug
 
     - name: Upload Coverage to CodeCov
       uses: codecov/codecov-action@v2
