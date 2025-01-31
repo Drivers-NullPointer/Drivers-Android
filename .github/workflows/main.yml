@@ -39,7 +39,7 @@ jobs:
     - name: Publish Coverage Report as PR Comment
       uses: mi-kas/kover-report@v1
       with:
-        token: ${{ secrets.ACCESS_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
         path: ./app/build/reports/kover/reportDebug.xml
         update-comment: true
         title: 'Kover Coverage Report'
