@@ -3,7 +3,7 @@ name: Kotlin Code Coverage
 on:
   pull_request:
     branches:
-      - develop
+      - develop  # Solo ejecutará el CI en PR hacia la rama develop
 
 jobs:
   build:
@@ -32,8 +32,11 @@ jobs:
 
     - name: Generate XML Coverage Report
       run: ./gradlew koverXmlReportDebug
-      
+
     - name: Publish Coverage Report as PR Comment
       uses: mi-kas/kover-report@v1
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+        path: ./app/build/reports/kover/reportDebug.xml
+        update-comment: true
+        title: 'Kover Coverage Report'
