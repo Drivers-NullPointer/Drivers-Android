@@ -3,7 +3,7 @@ name: Kotlin Code Coverage
 on:
   pull_request:
     branches:
-      - develop  # Solo ejecutará el CI en PR hacia la rama develop
+      - develop
 
 jobs:
   build:
@@ -21,13 +21,14 @@ jobs:
     - name: Grant execute permission to gradlew
       run: chmod +x gradlew
 
-    - name: Set up Gradle
-      uses: gradle/wrapper-validation-action@v1
+    - name: Install Gradle (if needed)
+      run: |
+        curl -s https://get.sdkman.io | bash
+        source "$HOME/.sdkman/bin/sdkman-init.sh"
+        sdk install gradle
 
-    - name: Run Tests and Generate Coverage Report
-      run: ./gradlew test koverXmlReportDebug
+    - name: Run Kover Verify Debug
+      run: ./gradlew koverVerifyDebug
 
-    - name: Publish Coverage Report as PR Comment
-      uses: mi-kas/kover-report@v1
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Generate XML Coverage Report
+      run: ./gradlew koverXmlReportDebug
