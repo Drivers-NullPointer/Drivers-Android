@@ -19,6 +19,9 @@ jobs:
         java-version: '11'
         distribution: 'adopt'
 
+    - name: Dar permisos de ejecución a gradlew
+      run: chmod +x ./gradlew
+
     - name: Set up Gradle
       uses: gradle/wrapper-validation-action@v1
 
