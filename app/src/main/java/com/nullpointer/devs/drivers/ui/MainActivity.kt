@@ -1,4 +1,4 @@
-package com.nullpointer.devs.drivers
+package com.nullpointer.devs.drivers.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

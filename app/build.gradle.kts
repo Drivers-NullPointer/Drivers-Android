@@ -1,9 +1,16 @@
+import kotlinx.kover.gradle.plugin.dsl.AggregationType
+import kotlinx.kover.gradle.plugin.dsl.CoverageUnit
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.koverAndroidReport)
 }
 
 android {
+
     namespace = "com.nullpointer.devs.drivers"
     compileSdk = 34
 
@@ -21,6 +28,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            enableUnitTestCoverage = true
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -66,4 +81,50 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    // Datastore
+    debugImplementation(libs.androidx.datastore.preferences)
+    // Kotlin Serialization
+    implementation(libs.kotlinx.serialization.json)
+    // mockk
+    testImplementation(libs.mockk)
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.test)
+
+}
+
+
+kover{
+    reports{
+        filters{
+            excludes{
+                packages("**.ui**")
+                packages("**.model.*")
+                annotatedBy("androidx.compose.ui.tooling.preview.Preview")
+                annotatedBy("androidx.compose.runtime.Composable")
+            }
+        }
+        verify{
+            rule("Line coverage") {
+                bound{
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    coverageUnits = CoverageUnit.LINE
+                    minValue = 100
+                }
+            }
+            rule("Branch coverage") {
+                bound{
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    coverageUnits = CoverageUnit.BRANCH
+                    minValue = 100
+                }
+            }
+            rule("Instruction coverage") {
+                bound{
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    coverageUnits = CoverageUnit.INSTRUCTION
+                    minValue = 100
+                }
+            }
+        }
+    }
 }
