@@ -1,5 +1,8 @@
 name: Kotlin Code Coverage
 
+permissions:
+  pull-requests: write
+
 on:
   pull_request:
     branches:
@@ -40,3 +43,5 @@ jobs:
         path: ./app/build/reports/kover/reportDebug.xml
         update-comment: true
         title: 'Kover Coverage Report'
+        min-coverage-overall: 90  # Ajusta el umbral de cobertura mínima
+        min-coverage-changed-files: 90  # Ajusta el umbral de cobertura mínima para archivos cambiados
