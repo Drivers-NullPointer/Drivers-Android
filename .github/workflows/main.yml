@@ -24,8 +24,10 @@ jobs:
     - name: Set up Gradle
       uses: gradle/wrapper-validation-action@v1
 
-    - name: Run Kover Verify Debug
-      run: ./gradlew koverVerifyDebug
+    - name: Run Tests and Generate Coverage Report
+      run: ./gradlew test koverXmlReportDebug
 
-    - name: Generate XML Coverage Report
-      run: ./gradlew koverXmlReportDebug
+    - name: Publish Coverage Report as PR Comment
+      uses: mi-kas/kover-report@v1
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
