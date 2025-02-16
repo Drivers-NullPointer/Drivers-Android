@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.koverAndroidReport)
 }
 
+val apiKey: String = project.findProperty("drivers_api").toString()
+
 android {
 
     namespace = "com.nullpointer.devs.drivers"
@@ -25,6 +27,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String","drivers_api",apiKey)
     }
 
     buildTypes {
@@ -89,6 +93,8 @@ dependencies {
     testImplementation(libs.mockk)
     // Coroutines
     implementation(libs.kotlinx.coroutines.test)
+    // retrofit
+    implementation(libs.retrofit)
 
 }
 
