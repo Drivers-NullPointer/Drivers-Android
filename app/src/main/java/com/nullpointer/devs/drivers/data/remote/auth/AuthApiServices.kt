@@ -1,4 +1,4 @@
-package com.nullpointer.devs.drivers.data.remote
+package com.nullpointer.devs.drivers.data.remote.auth
 
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordResponseDTO
