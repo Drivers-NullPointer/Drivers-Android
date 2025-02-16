@@ -104,6 +104,17 @@ kover{
     reports{
         filters{
             excludes{
+                classes(
+                    listOf(
+                        "**.R*",
+                        "**.R$*",
+                        "**.BuildConfig*",
+                        "**.Manifest*",
+                        "**.DataBindingComponent*",
+                        "**.DataBindingInfo*",
+                        "**.BR*",
+                    )
+                )
                 packages("**.ui**")
                 packages("**.model.*")
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
