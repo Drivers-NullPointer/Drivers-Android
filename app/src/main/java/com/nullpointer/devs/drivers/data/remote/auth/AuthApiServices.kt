@@ -6,6 +6,7 @@ import com.nullpointer.devs.drivers.data.model.auth.dto.LoginDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RefreshDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RefreshTokenResponseDTO
+import com.nullpointer.devs.drivers.data.model.auth.dto.RegisterDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RegisterResponseDTO
 import retrofit2.http.POST
 
@@ -17,7 +18,7 @@ interface AuthApiServices {
 
 
     @POST("register")
-    suspend fun register(registerResponseDTO: RegisterResponseDTO):RegisterResponseDTO
+    suspend fun register(registerDTO: RegisterDTO):RegisterResponseDTO
 
 
     @POST("refresh")

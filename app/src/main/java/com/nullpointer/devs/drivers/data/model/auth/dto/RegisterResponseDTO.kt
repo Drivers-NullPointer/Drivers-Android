@@ -7,17 +7,19 @@ data class RegisterResponseDTO (
     val token: String,
     val refreshToken: String,
     val user: User
-)
+){
+    @Serializable
+    data class User (
+        val id: Long,
+        val name: String,
+        val email: String,
 
-@Serializable
-data class User (
-    val id: Long,
-    val name: String,
-    val email: String,
+        @SerialName("roleId")
+        val roleID: Long,
 
-    @SerialName("roleId")
-    val roleID: Long,
+        val isEmailVerified: Boolean
+    )
 
-    val isEmailVerified: Boolean
-)
+
+}
 
