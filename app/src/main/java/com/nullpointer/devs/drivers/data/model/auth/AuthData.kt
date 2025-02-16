@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AuthData(
+    val id:Long,
     val token:String,
-    val refreshToken:String
+    val refreshToken:String,
 )
