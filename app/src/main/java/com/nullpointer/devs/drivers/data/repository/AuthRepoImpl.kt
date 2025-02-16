@@ -28,7 +28,7 @@ class AuthRepoImpl(
     /**
      * A Flow that emits authentication data updates in real-time.
      */
-    override val authData = authLocalDataSource.getAuthData()
+    override val authData get() = authLocalDataSource.getAuthData()
 
     /**
      * Logs in a user using the provided credentials.

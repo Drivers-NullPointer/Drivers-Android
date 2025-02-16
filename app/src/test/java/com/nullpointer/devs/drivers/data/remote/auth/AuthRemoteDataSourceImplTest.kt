@@ -33,6 +33,7 @@ class AuthRemoteDataSourceImplTest {
         val loginDTO = LoginDTO(email = "test@example.com", password = "password")
         val expectedResponse = LoginResponseDTO(
             token = "token",
+            refreshToken = "refresh_token",
             user = LoginResponseDTO.User(
                 name = "Test",
                 id = 1,

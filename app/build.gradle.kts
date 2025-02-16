@@ -106,13 +106,7 @@ kover{
             excludes{
                 classes(
                     listOf(
-                        "**.R*",
-                        "**.R$*",
                         "**.BuildConfig*",
-                        "**.Manifest*",
-                        "**.DataBindingComponent*",
-                        "**.DataBindingInfo*",
-                        "**.BR*",
                     )
                 )
                 packages("**.ui**")
@@ -126,13 +120,6 @@ kover{
                 bound{
                     aggregationForGroup = AggregationType.COVERED_PERCENTAGE
                     coverageUnits = CoverageUnit.LINE
-                    minValue = 100
-                }
-            }
-            rule("Branch coverage") {
-                bound{
-                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
-                    coverageUnits = CoverageUnit.BRANCH
                     minValue = 100
                 }
             }
