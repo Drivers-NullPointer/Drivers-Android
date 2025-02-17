@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.koverAndroidReport)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 val apiKey: String = project.findProperty("drivers_api").toString()
@@ -96,9 +98,15 @@ dependencies {
     implementation(libs.kotlinx.coroutines.test)
     // retrofit
     implementation(libs.retrofit)
+    // hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
 }
 
+kapt {
+    correctErrorTypes = true
+}
 
 kover{
     reports{
