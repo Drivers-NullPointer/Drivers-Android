@@ -98,6 +98,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.test)
     // retrofit
     implementation(libs.retrofit)
+    implementation(libs.retrofit.serialization)
     // hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
