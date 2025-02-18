@@ -20,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId = "com.nullpointer.devs.drivers"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -89,7 +89,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     // Datastore
-    debugImplementation(libs.androidx.datastore.preferences)
+    implementation(libs.security.crypto.datastore.preferences)
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
     // mockk
@@ -114,12 +114,23 @@ kover{
         filters{
             excludes{
                 classes(
-                    listOf(
                         "**.BuildConfig*",
-                    )
+                        "**.R*",
+                        "**.Manifest*",
+                        "**.Dagger*",
+                        "**.Hilt*",
+                        "**.DataStoreModule*",
+                        "**HiltModule*",
+                        "**_Factory*",
                 )
-                packages("**.ui**")
-                packages("**.model.*")
+                packages(
+                    "**.ui*",
+                    "**.di*",
+                    "**.model*",
+                    "**.dagger*",
+                    "**hilt*",
+                    "**.model*",
+                )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
                 annotatedBy("androidx.compose.runtime.Composable")
             }

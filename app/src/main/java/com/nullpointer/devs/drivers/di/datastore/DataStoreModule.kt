@@ -2,23 +2,28 @@ package com.nullpointer.devs.drivers.di.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
+import androidx.datastore.dataStoreFile
 import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.nullpointer.devs.drivers.data.local.datastore.auth.AuthDataStore
-import com.nullpointer.devs.drivers.data.local.datastore.auth.AuthDataStoreImpl
+import androidx.security.crypto.EncryptedFile
+import androidx.security.crypto.MasterKeys
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.osipxd.security.crypto.createEncrypted
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
+
+
 
 private const val USER_PREFERENCES = "user_preferences"
 
@@ -28,22 +33,32 @@ object DataStoreModule {
 
     @Provides
     @Singleton
-    fun provideMainDataStore(
+    fun provideEncryptedFile(
         @ApplicationContext appContext: Context
+    ): EncryptedFile {
+        return EncryptedFile.Builder(
+            appContext.dataStoreFile(USER_PREFERENCES),
+            appContext,
+            MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC),
+            EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+        ).build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideMainDataStore(
+        @ApplicationContext appContext: Context,
+        encryptedFile: EncryptedFile
     ): DataStore<Preferences> {
-        return PreferenceDataStoreFactory.create(
+
+        return PreferenceDataStoreFactory.createEncrypted(
             corruptionHandler = ReplaceFileCorruptionHandler(
                 produceNewData = { emptyPreferences() }
             ),
             migrations = listOf(SharedPreferencesMigration(appContext, USER_PREFERENCES)),
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
-            produceFile = { appContext.preferencesDataStoreFile(USER_PREFERENCES) }
-
+            produceFile = { encryptedFile }
         )
     }
-
-
-
-
-
 }
