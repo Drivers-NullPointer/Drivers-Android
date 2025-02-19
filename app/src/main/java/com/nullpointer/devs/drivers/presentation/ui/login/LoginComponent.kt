@@ -4,10 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -19,16 +17,16 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.nullpointer.devs.drivers.R
 import com.nullpointer.devs.drivers.presentation.ui.login.components.PasswordFieldComponent
 import com.nullpointer.devs.drivers.presentation.ui.login.components.TextFieldComponent
 import com.nullpointer.devs.drivers.presentation.ui.login.state.InputState
@@ -43,7 +41,12 @@ fun LoginComponent(
     LoginComponent(
         modifier = Modifier.fillMaxSize(),
         emailInputState = viewModel.emailInputState,
-        passwordState = viewModel.passwordInputState
+        passwordState = viewModel.passwordInputState,
+        validateForm = {
+            viewModel.validateFields()?.let {
+                viewModel.login(it)
+            }
+        }
     )
 }
 
@@ -53,9 +56,10 @@ fun LoginComponent(
 
 @Composable
 private fun LoginComponent(
-    modifier: Modifier = Modifier,
     emailInputState: InputState,
-    passwordState: PasswordState
+    passwordState: PasswordState,
+    modifier: Modifier = Modifier,
+    validateForm: () -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier
@@ -106,10 +110,10 @@ private fun LoginComponent(
 
 
                     ExtendedFloatingActionButton(
-                        onClick = { /*TODO*/ },
+                        onClick = validateForm,
                         modifier = Modifier.width(200.dp)
                     ) {
-                        Text(text = "Login")
+                        Text(text = stringResource(R.string.login))
                     }
                 }
             }

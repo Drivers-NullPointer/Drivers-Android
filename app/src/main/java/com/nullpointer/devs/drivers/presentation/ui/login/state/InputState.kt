@@ -22,6 +22,7 @@ open class InputState(
 
     private val _error = MutableStateFlow<Int?>(null)
     val error: StateFlow<Int?> = _error.asStateFlow()
+
     val hasError: Flow<Boolean> = _error.map { it != null }
 
     fun onValueChanged(value: String) {

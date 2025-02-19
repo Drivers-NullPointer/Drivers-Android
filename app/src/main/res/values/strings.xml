@@ -4,4 +4,9 @@
     <string name="error_invalid_mail">El correo no es valido</string>
     <string name="error_empty_password">La contraseña es requerida</string>
     <string name="password_visibility_toggle">Cambiar la visualizacion de la contraseña</string>
+    <string name="email">Correo</string>
+    <string name="email_hint">example@correo.com</string>
+    <string name="password">Contraseña</string>
+    <string name="password_hint">********</string>
+    <string name="login">Login</string>
 </resources>
