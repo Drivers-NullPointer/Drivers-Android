@@ -28,11 +28,22 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.nullpointer.devs.drivers.presentation.ui.login.components.PasswordFieldComponent
+import com.nullpointer.devs.drivers.presentation.ui.login.components.TextFieldComponent
+import com.nullpointer.devs.drivers.presentation.ui.login.state.InputState
+import com.nullpointer.devs.drivers.presentation.ui.login.state.PasswordState
+
 
 @Composable
-fun LoginComponent() {
+fun LoginComponent(
+    viewModel: LoginViewModel = hiltViewModel()
+) {
+
     LoginComponent(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
+        emailInputState = viewModel.emailInputState,
+        passwordState = viewModel.passwordInputState
     )
 }
 
@@ -42,7 +53,9 @@ fun LoginComponent() {
 
 @Composable
 private fun LoginComponent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    emailInputState: InputState,
+    passwordState: PasswordState
 ) {
     Scaffold(
         modifier = modifier
@@ -65,7 +78,10 @@ private fun LoginComponent(
                 Column(
                     modifier = Modifier
                         .padding(16.dp)
-                        .background(MaterialTheme.colorScheme.surface, shape = RoundedCornerShape(12.dp))
+                        .background(
+                            MaterialTheme.colorScheme.surface,
+                            shape = RoundedCornerShape(12.dp)
+                        )
                         .padding(24.dp)
                         .widthIn(max = 400.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -77,17 +93,17 @@ private fun LoginComponent(
                         color = Color.Black
                     )
 
-                    TextField(
-                        value = "",
-                        onValueChange = {},
+
+                    TextFieldComponent(
+                        state = emailInputState,
                         modifier = Modifier.fillMaxWidth()
                     )
 
-                    TextField(
-                        value = "",
-                        onValueChange = {},
+                    PasswordFieldComponent(
+                        state = passwordState,
                         modifier = Modifier.fillMaxWidth()
                     )
+
 
                     ExtendedFloatingActionButton(
                         onClick = { /*TODO*/ },
