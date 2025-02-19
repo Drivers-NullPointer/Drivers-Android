@@ -13,6 +13,7 @@
         android:theme="@style/Theme.Drivers"
         tools:targetApi="31"
         android:name=".di.AndroidApplication"
+        android:windowSoftInputMode="adjustResize"
         >
         <activity
             android:name=".ui.MainActivity"

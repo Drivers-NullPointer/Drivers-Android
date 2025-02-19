@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Drivers</string>
+    <string name="error_empty_mail">El correo no puede estar vacio</string>
+    <string name="error_invalid_mail">El correo no es valido</string>
+    <string name="error_empty_password">La contraseña es requerida</string>
 </resources>
