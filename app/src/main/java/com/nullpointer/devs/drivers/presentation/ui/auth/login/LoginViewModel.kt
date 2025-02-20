@@ -1,13 +1,14 @@
-package com.nullpointer.devs.drivers.presentation.ui.login
+package com.nullpointer.devs.drivers.presentation.ui.auth.login
 
+import android.util.Patterns
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nullpointer.devs.drivers.R
 import com.nullpointer.devs.drivers.domain.model.CredentialsData
-import com.nullpointer.devs.drivers.presentation.ui.login.state.InputState
-import com.nullpointer.devs.drivers.presentation.ui.login.state.PasswordState
-import com.nullpointer.devs.drivers.presentation.ui.login.state.ValidatorRule
+import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
+import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
+import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.ValidatorRule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -33,7 +34,7 @@ class LoginViewModel @Inject constructor(
             ),
             ValidatorRule(
                 validator = { value ->
-                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(value)
+                    if (!Patterns.EMAIL_ADDRESS.matcher(value)
                             .matches()
                     ) R.string.error_invalid_mail else null
                 },

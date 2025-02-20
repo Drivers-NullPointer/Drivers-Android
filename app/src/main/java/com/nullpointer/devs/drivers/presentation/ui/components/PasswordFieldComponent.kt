@@ -19,7 +19,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.SavedStateHandle
 import com.nullpointer.devs.drivers.R
-import com.nullpointer.devs.drivers.presentation.ui.login.state.PasswordState
+import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
 
 @Composable
 fun PasswordFieldComponent(

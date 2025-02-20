@@ -11,7 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.nullpointer.devs.drivers.presentation.ui.login.LoginComponent
+import com.nullpointer.devs.drivers.presentation.ui.auth.forgotPassword.ForgotPasswordComponent
+import com.nullpointer.devs.drivers.presentation.ui.auth.login.LoginComponent
 import com.nullpointer.devs.drivers.ui.theme.DriversTheme
 import dagger.hilt.android.AndroidEntryPoint
 

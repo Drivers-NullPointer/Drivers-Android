@@ -21,4 +21,6 @@
     <string name="register_text_button">Registrarse</string>
     <string name="forgot_password">¿No recuerdas tu contraseña?</string>
     <string name="recover">Recuperar contraseña</string>
+    <string name="send_reset_link">Enviar recuperación</string>
+    <string name="reset_password_text">Recuperar contraseña</string>
 </resources>

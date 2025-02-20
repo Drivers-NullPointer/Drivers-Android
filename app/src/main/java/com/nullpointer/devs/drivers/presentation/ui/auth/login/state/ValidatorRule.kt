@@ -1,4 +1,4 @@
-package com.nullpointer.devs.drivers.presentation.ui.login.state
+package com.nullpointer.devs.drivers.presentation.ui.auth.login.state
 
 import androidx.compose.runtime.Stable
 

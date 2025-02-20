@@ -1,13 +1,14 @@
-package com.nullpointer.devs.drivers.presentation.ui.register
+package com.nullpointer.devs.drivers.presentation.ui.auth.register
 
+import android.util.Patterns
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.nullpointer.devs.drivers.presentation.ui.login.state.InputState
+import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.nullpointer.devs.drivers.R
-import com.nullpointer.devs.drivers.presentation.ui.login.state.PasswordState
-import com.nullpointer.devs.drivers.presentation.ui.login.state.ValidatorRule
+import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
+import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.ValidatorRule
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
@@ -60,7 +61,7 @@ class RegisterViewModel @Inject constructor(
             ),
             ValidatorRule(
                 validator = { value ->
-                    if (!android.util.Patterns.EMAIL_ADDRESS.matcher(value)
+                    if (!Patterns.EMAIL_ADDRESS.matcher(value)
                             .matches()
                     ) R.string.error_invalid_mail else null
                 },

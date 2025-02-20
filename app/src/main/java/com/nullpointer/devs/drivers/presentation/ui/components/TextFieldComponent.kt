@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.SavedStateHandle
-import com.nullpointer.devs.drivers.presentation.ui.login.state.InputState
+import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 
 
 @Composable
