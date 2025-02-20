@@ -8,5 +8,7 @@
     <string name="email_hint">example@correo.com</string>
     <string name="password">Contraseña</string>
     <string name="password_hint">********</string>
-    <string name="login">Login</string>
+    <string name="no_has_account">¿No tienes una cuenta?</string>
+    <string name="sign_up">Registrate</string>
+    <string name="login_text">Iniciar sesión</string>
 </resources>

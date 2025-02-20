@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -17,6 +18,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,7 +61,8 @@ private fun LoginComponent(
     emailInputState: InputState,
     passwordState: PasswordState,
     modifier: Modifier = Modifier,
-    validateForm: () -> Unit = {}
+    validateForm: () -> Unit = {},
+    registerAction: () -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier
@@ -92,7 +95,7 @@ private fun LoginComponent(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = "Login",
+                        text = stringResource(R.string.login_text),
                         style = MaterialTheme.typography.headlineSmall,
                         color = Color.Black
                     )
@@ -113,7 +116,29 @@ private fun LoginComponent(
                         onClick = validateForm,
                         modifier = Modifier.width(200.dp)
                     ) {
-                        Text(text = stringResource(R.string.login))
+                        Text(text = stringResource(R.string.login_text))
+                    }
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(R.string.no_has_account),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.Black
+                        )
+                        TextButton(
+                            onClick = registerAction,
+                            modifier = Modifier.padding(start = 4.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.sign_up),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                        }
                     }
                 }
             }
@@ -127,7 +152,24 @@ private fun LoginComponent(
 )
 @Composable
 private fun LoginComponentPreview() {
-    LoginComponent()
+    LoginComponent(
+        emailInputState = InputState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            key = "",
+            savedStateHandle = androidx.lifecycle.SavedStateHandle()
+        ),
+        passwordState = PasswordState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            key = "",
+            savedStateHandle = androidx.lifecycle.SavedStateHandle()
+        )
+    )
 }
 
 @Preview(
@@ -137,5 +179,22 @@ private fun LoginComponentPreview() {
 )
 @Composable
 private fun LoginComponentPreviewTablet() {
-    LoginComponent()
+    LoginComponent(
+        emailInputState = InputState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            key = "",
+            savedStateHandle = androidx.lifecycle.SavedStateHandle()
+        ),
+        passwordState = PasswordState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            key = "",
+            savedStateHandle = androidx.lifecycle.SavedStateHandle()
+        )
+    )
 }
