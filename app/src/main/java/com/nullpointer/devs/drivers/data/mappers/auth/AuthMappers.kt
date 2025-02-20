@@ -4,6 +4,7 @@ import com.nullpointer.devs.drivers.data.model.auth.AuthData
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginResponseDTO
+import com.nullpointer.devs.drivers.data.model.auth.dto.RefreshDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RegisterDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RegisterResponseDTO
 import com.nullpointer.devs.drivers.domain.model.CredentialsData
@@ -38,4 +39,8 @@ fun RegisterResponseDTO.toAuthData() = AuthData(
 
 fun ForgotPasswordData.toForgotPasswordDTO() = ForgotPasswordDTO(
     email = email
+)
+
+fun AuthData.toRefreshTokenDTO() = RefreshDTO(
+    refreshToken = refreshToken
 )
