@@ -11,4 +11,14 @@
     <string name="no_has_account">¿No tienes una cuenta?</string>
     <string name="sign_up">Registrate</string>
     <string name="login_text">Iniciar sesión</string>
+    <string name="name">Nombre</string>
+    <string name="error_empty_name">El nombre es requerido</string>
+    <string name="last_name">Apellidos</string>
+    <string name="error_empty_last_name">El apellido es requerido</string>
+    <string name="birthday">Fecha de nacimiento</string>
+    <string name="error_empty_birthday">La fecha de nacimiento es requrida</string>
+    <string name="register_text">Registro</string>
+    <string name="register_text_button">Registrarse</string>
+    <string name="forgot_password">¿No recuerdas tu contraseña?</string>
+    <string name="recover">Recuperar contraseña</string>
 </resources>

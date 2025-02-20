@@ -1,4 +1,4 @@
-package com.nullpointer.devs.drivers.presentation.ui.login.components
+package com.nullpointer.devs.drivers.presentation.ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

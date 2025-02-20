@@ -1,4 +1,4 @@
-package com.nullpointer.devs.drivers.presentation.ui.login
+package com.nullpointer.devs.drivers.presentation.ui.register
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,34 +36,35 @@ import com.nullpointer.devs.drivers.presentation.ui.login.state.PasswordState
 
 
 @Composable
-fun LoginComponent(
-    viewModel: LoginViewModel = hiltViewModel()
+fun RegisterComponent(
+    registerViewModel: RegisterViewModel = hiltViewModel()
 ) {
 
-    LoginComponent(
-        modifier = Modifier.fillMaxSize(),
-        emailInputState = viewModel.emailInputState,
-        passwordState = viewModel.passwordInputState,
+    RegisterComponent(
+        emailInputState = registerViewModel.emailInputState,
+        passwordState = registerViewModel.passwordInputState,
+        lastNameState = registerViewModel.lastNameInputState,
+        nameState = registerViewModel.nameInputState,
+        birthDateState = registerViewModel.birthdayInputState,
         validateForm = {
-            viewModel.validateFields()?.let {
-                viewModel.login(it)
-            }
+
+        },
+        registerAction = {
+
         }
     )
 }
 
-
-
-
-
 @Composable
-private fun LoginComponent(
+private fun RegisterComponent(
     emailInputState: InputState,
     passwordState: PasswordState,
+    lastNameState: InputState,
+    nameState: InputState,
+    birthDateState: InputState,
     modifier: Modifier = Modifier,
     validateForm: () -> Unit = {},
-    registerAction: () -> Unit = {},
-    forgotPasswordAction: () -> Unit = {}
+    registerAction: () -> Unit = {}
 ) {
     Scaffold(
         modifier = modifier
@@ -96,11 +97,25 @@ private fun LoginComponent(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = stringResource(R.string.login_text),
+                        text = stringResource(R.string.register_text),
                         style = MaterialTheme.typography.headlineSmall,
                         color = Color.Black
                     )
 
+                    TextFieldComponent(
+                        state = nameState,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    TextFieldComponent(
+                        state = lastNameState,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+
+                    TextFieldComponent(
+                        state = birthDateState,
+                        modifier = Modifier.fillMaxWidth()
+                    )
 
                     TextFieldComponent(
                         state = emailInputState,
@@ -112,81 +127,67 @@ private fun LoginComponent(
                         modifier = Modifier.fillMaxWidth()
                     )
 
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ){
-                        ExtendedFloatingActionButton(
-                            onClick = validateForm,
-                            modifier = Modifier.width(200.dp)
-                        ) {
-                            Text(text = stringResource(R.string.login_text))
-                        }
 
-                        TextButton(
-                            onClick = forgotPasswordAction,
-                            modifier = Modifier.padding(start = 4.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.recover),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-
-
-
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically
+                    ExtendedFloatingActionButton(
+                        onClick = validateForm,
+                        modifier = Modifier.width(200.dp)
                     ) {
-                        Text(
-                            text = stringResource(R.string.no_has_account),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.Black
-                        )
-                        TextButton(
-                            onClick = registerAction,
-                            modifier = Modifier.padding(start = 4.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.sign_up),
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.primary
-                            )
-                        }
+                        Text(text = stringResource(R.string.register_text_button))
                     }
+
                 }
             }
         }
     }
 }
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4_XL
 )
 @Composable
-private fun LoginComponentPreview() {
-    LoginComponent(
+private fun RegisterComponentPreview() {
+    RegisterComponent(
         emailInputState = InputState(
             currentValue = "value",
             label = null,
             hint = null,
             validators = emptyList(),
-            key = "",
-            savedStateHandle = androidx.lifecycle.SavedStateHandle()
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
         ),
         passwordState = PasswordState(
             currentValue = "value",
             label = null,
             hint = null,
             validators = emptyList(),
-            key = "",
-            savedStateHandle = androidx.lifecycle.SavedStateHandle()
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
+        ),
+        lastNameState = InputState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
+        ),
+        nameState = InputState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
+        ),
+        birthDateState = InputState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
         )
     )
 }
@@ -197,23 +198,47 @@ private fun LoginComponentPreview() {
     device = Devices.TABLET
 )
 @Composable
-private fun LoginComponentPreviewTablet() {
-    LoginComponent(
+private fun RegisterComponentPreviewTablet() {
+    RegisterComponent(
         emailInputState = InputState(
             currentValue = "value",
             label = null,
             hint = null,
             validators = emptyList(),
-            key = "",
-            savedStateHandle = androidx.lifecycle.SavedStateHandle()
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
         ),
         passwordState = PasswordState(
             currentValue = "value",
             label = null,
             hint = null,
             validators = emptyList(),
-            key = "",
-            savedStateHandle = androidx.lifecycle.SavedStateHandle()
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
+        ),
+        lastNameState = InputState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
+        ),
+        nameState = InputState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
+        ),
+        birthDateState = InputState(
+            currentValue = "value",
+            label = null,
+            hint = null,
+            validators = emptyList(),
+            savedStateHandle = androidx.lifecycle.SavedStateHandle(),
+            key = ""
         )
     )
 }
