@@ -30,15 +30,23 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import com.nullpointer.devs.drivers.R
-import com.nullpointer.devs.drivers.presentation.ui.components.PasswordFieldComponent
-import com.nullpointer.devs.drivers.presentation.ui.components.TextFieldComponent
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
+import com.nullpointer.devs.drivers.presentation.ui.components.PasswordFieldComponent
+import com.nullpointer.devs.drivers.presentation.ui.components.TextFieldComponent
+import com.nullpointer.devs.drivers.presentation.ui.graph.AuthGraph
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.generated.destinations.ForgotPasswordComponentDestination
+import com.ramcosta.composedestinations.generated.destinations.RegisterComponentDestination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
+@AuthGraph
+@Destination<AuthGraph>(start = true)
 @Composable
 fun LoginComponent(
-    viewModel: LoginViewModel = hiltViewModel()
+    navigator: DestinationsNavigator,
+    viewModel: LoginViewModel = hiltViewModel(),
 ) {
 
     LoginComponent(
@@ -49,6 +57,12 @@ fun LoginComponent(
             viewModel.validateFields()?.let {
                 viewModel.login(it)
             }
+        },
+        registerAction = {
+            navigator.navigate(RegisterComponentDestination)
+        },
+        forgotPasswordAction = {
+            navigator.navigate(ForgotPasswordComponentDestination)
         }
     )
 }

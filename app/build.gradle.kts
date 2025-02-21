@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.koverAndroidReport)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 val apiKey: String = project.findProperty("drivers_api").toString()
@@ -103,6 +104,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    // destination
+    implementation(libs.compose.destination)
+    ksp(libs.ksp)
 
 }
 

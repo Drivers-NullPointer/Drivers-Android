@@ -27,7 +27,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.nullpointer.devs.drivers.R
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.components.TextFieldComponent
+import com.nullpointer.devs.drivers.presentation.ui.graph.AuthGraph
+import com.ramcosta.composedestinations.annotation.Destination
 
+@Destination<AuthGraph>
 @Composable
 fun ForgotPasswordComponent(
     forgotPasswordViewModel: ForgotPasswordViewModel = hiltViewModel()
