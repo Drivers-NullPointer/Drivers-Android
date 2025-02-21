@@ -41,7 +41,6 @@ import com.ramcosta.composedestinations.generated.destinations.RegisterComponent
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
-@AuthGraph
 @Destination<AuthGraph>(start = true)
 @Composable
 fun LoginComponent(
