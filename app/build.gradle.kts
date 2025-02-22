@@ -12,7 +12,8 @@ plugins {
     alias(libs.plugins.kotlin.ksp)
 }
 
-val apiKey: String = project.findProperty("drivers_api").toString()
+val apiKeyDev: String = project.findProperty("drivers_api_dev").toString()
+val apiKeyProd: String = project.findProperty("drivers_api_prod").toString()
 
 android {
 
@@ -31,7 +32,6 @@ android {
             useSupportLibrary = true
         }
 
-        buildConfigField("String","drivers_api",apiKey)
     }
 
     buildTypes {
@@ -42,6 +42,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String","drivers_api",apiKeyDev)
         }
         release {
             isMinifyEnabled = false
@@ -49,6 +50,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String","drivers_api",apiKeyProd)
         }
     }
     compileOptions {

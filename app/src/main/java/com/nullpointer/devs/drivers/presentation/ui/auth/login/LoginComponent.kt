@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import com.nullpointer.devs.drivers.R
+import com.nullpointer.devs.drivers.presentation.state.BasicScreenState
+import com.nullpointer.devs.drivers.presentation.state.rememberBasicScreenState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
 import com.nullpointer.devs.drivers.presentation.ui.components.PasswordFieldComponent
@@ -54,21 +56,22 @@ fun LoginComponent(
     navigator: DestinationsNavigator,
     context: Context = LocalContext.current,
     viewModel: LoginViewModel = hiltViewModel(),
-    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
+    basicScreenState: BasicScreenState = rememberBasicScreenState(),
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.errorLogin.collect {
-            snackbarHostState.showSnackbar(
-                message = context.getString(it),
+            basicScreenState.showSnackbar(
+                message = it,
+                context = context
             )
         }
     }
 
     LoginComponent(
-        snackbarHostState = snackbarHostState,
         modifier = Modifier.fillMaxSize(),
         emailInputState = viewModel.emailInputState,
         passwordState = viewModel.passwordInputState,
+        snackbarHostState = basicScreenState.snackbarHostState,
         validateForm = {
             viewModel.validateFields()?.let {
                 viewModel.login(it)
