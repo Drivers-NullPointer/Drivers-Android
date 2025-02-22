@@ -23,8 +23,9 @@ import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordSta
 
 @Composable
 fun PasswordFieldComponent(
-    modifier: Modifier = Modifier,
     state: PasswordState,
+    isEnable: Boolean = true,
+    modifier: Modifier = Modifier,
 ) {
 
     val value by state.value.collectAsState()
@@ -35,6 +36,7 @@ fun PasswordFieldComponent(
         modifier = modifier
     ) {
         OutlinedTextField(
+            enabled = isEnable,
             modifier = Modifier.fillMaxWidth(),
             value = value,
             isError = error != null,

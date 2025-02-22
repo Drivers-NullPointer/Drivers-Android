@@ -1,5 +1,6 @@
 package com.nullpointer.devs.drivers.presentation.ui.auth.login
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,12 +18,18 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,10 +52,20 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun LoginComponent(
     navigator: DestinationsNavigator,
+    context: Context = LocalContext.current,
     viewModel: LoginViewModel = hiltViewModel(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
 ) {
+    LaunchedEffect(key1 = Unit) {
+        viewModel.errorLogin.collect {
+            snackbarHostState.showSnackbar(
+                message = context.getString(it),
+            )
+        }
+    }
 
     LoginComponent(
+        snackbarHostState = snackbarHostState,
         modifier = Modifier.fillMaxSize(),
         emailInputState = viewModel.emailInputState,
         passwordState = viewModel.passwordInputState,
@@ -77,10 +94,14 @@ private fun LoginComponent(
     modifier: Modifier = Modifier,
     validateForm: () -> Unit = {},
     registerAction: () -> Unit = {},
-    forgotPasswordAction: () -> Unit = {}
+    forgotPasswordAction: () -> Unit = {},
+    isLoading: Boolean = false,
+    snackbarHostState: SnackbarHostState,
 ) {
+
     Scaffold(
-        modifier = modifier
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -118,12 +139,14 @@ private fun LoginComponent(
 
                     TextFieldComponent(
                         state = emailInputState,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        isEnable = !isLoading
                     )
 
                     PasswordFieldComponent(
                         state = passwordState,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier.fillMaxWidth(),
+                        isEnable = !isLoading
                     )
 
                     Column(
@@ -132,15 +155,16 @@ private fun LoginComponent(
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ){
                         ExtendedFloatingActionButton(
-                            onClick = validateForm,
-                            modifier = Modifier.width(200.dp)
+                            onClick =  { if (!isLoading) validateForm() },
+                            modifier = Modifier.width(200.dp),
                         ) {
                             Text(text = stringResource(R.string.login_text))
                         }
 
                         TextButton(
                             onClick = forgotPasswordAction,
-                            modifier = Modifier.padding(start = 4.dp)
+                            modifier = Modifier.padding(start = 4.dp),
+                            enabled = !isLoading
                         ) {
                             Text(
                                 text = stringResource(R.string.recover),
@@ -185,7 +209,9 @@ private fun LoginComponent(
 )
 @Composable
 private fun LoginComponentPreview() {
+    val snackbarHostState = remember { SnackbarHostState() }
     LoginComponent(
+        snackbarHostState = snackbarHostState,
         emailInputState = InputState(
             currentValue = "value",
             label = null,
@@ -212,7 +238,9 @@ private fun LoginComponentPreview() {
 )
 @Composable
 private fun LoginComponentPreviewTablet() {
+    val snackbarHostState = remember { SnackbarHostState() }
     LoginComponent(
+        snackbarHostState = snackbarHostState,
         emailInputState = InputState(
             currentValue = "value",
             label = null,

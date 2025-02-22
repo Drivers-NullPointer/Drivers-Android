@@ -19,6 +19,7 @@ import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 fun TextFieldComponent(
     state: InputState,
     modifier: Modifier = Modifier,
+    isEnable: Boolean = true
 ) {
 
     val value by state.value.collectAsState()
@@ -34,6 +35,7 @@ fun TextFieldComponent(
             onValueChange = state::onValueChanged,
             label = state.label?.let { { Text(text = stringResource(id = it)) } },
             placeholder = state.hint?.let { { Text(text = stringResource(id = it)) } },
+            enabled = isEnable
         )
         Text(
             text = error?.let { stringResource(id = it) } ?: "",
