@@ -38,6 +38,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import com.nullpointer.devs.drivers.R
 import com.nullpointer.devs.drivers.presentation.state.BasicScreenState
+import com.nullpointer.devs.drivers.presentation.state.NavigateRoot
 import com.nullpointer.devs.drivers.presentation.state.rememberBasicScreenState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
@@ -53,7 +54,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination<AuthGraph>(start = true)
 @Composable
 fun LoginComponent(
-    navigator: DestinationsNavigator,
+    navigateRoot: NavigateRoot,
     viewModel: LoginViewModel = hiltViewModel(),
     basicScreenState: BasicScreenState = rememberBasicScreenState(),
 ) {
@@ -75,10 +76,10 @@ fun LoginComponent(
             }
         },
         registerAction = {
-            navigator.navigate(RegisterComponentDestination)
+            navigateRoot.navigate(RegisterComponentDestination)
         },
         forgotPasswordAction = {
-            navigator.navigate(ForgotPasswordComponentDestination)
+            navigateRoot.navigate(ForgotPasswordComponentDestination)
         }
     )
 }

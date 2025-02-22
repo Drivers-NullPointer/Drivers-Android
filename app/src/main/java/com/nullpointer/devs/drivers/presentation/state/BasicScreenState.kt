@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
 
-class BasicScreenState(
+open class BasicScreenState(
     private val contextState: State<Context>,
     val snackbarHostState: SnackbarHostState,
     private val keyboardController: SoftwareKeyboardController?,
