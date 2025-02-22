@@ -36,7 +36,7 @@ class AuthRemoteDataSourceImpl(
             authApiServices.login(loginDTO)
         } catch (e: HttpException) {
             throw when (e.code()) {
-                401 -> AuthException.LoginException.UserNotFoundException(e.message())
+                404 -> AuthException.LoginException.UserNotFoundException(e.message())
                 403 -> AuthException.LoginException.InvalidCredentialsException(e.message())
                 429 -> AuthException.LoginException.TooManyRequestsException(e.message())
                 else -> AuthException.LoginException.ServerException(e.message())

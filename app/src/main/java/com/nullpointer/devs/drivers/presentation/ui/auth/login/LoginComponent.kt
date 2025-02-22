@@ -54,16 +54,12 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Composable
 fun LoginComponent(
     navigator: DestinationsNavigator,
-    context: Context = LocalContext.current,
     viewModel: LoginViewModel = hiltViewModel(),
     basicScreenState: BasicScreenState = rememberBasicScreenState(),
 ) {
     LaunchedEffect(key1 = Unit) {
         viewModel.errorLogin.collect {
-            basicScreenState.showSnackbar(
-                message = it,
-                context = context
-            )
+            basicScreenState.showSnackbar(it)
         }
     }
 
@@ -73,6 +69,7 @@ fun LoginComponent(
         passwordState = viewModel.passwordInputState,
         snackbarHostState = basicScreenState.snackbarHostState,
         validateForm = {
+            basicScreenState.hideKeyboard()
             viewModel.validateFields()?.let {
                 viewModel.login(it)
             }
