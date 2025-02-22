@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nullpointer.devs.drivers.R
 import com.nullpointer.devs.drivers.domain.model.CredentialsData
+import com.nullpointer.devs.drivers.domain.repository.AuthRepository
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.ValidatorRule
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     companion object{
@@ -63,10 +65,10 @@ class LoginViewModel @Inject constructor(
         emailInputState.validate()
         passwordInputState.validate()
 
-        val isValidEmail = emailInputState.error.value != null
-        val isValidPassword = passwordInputState.error.value != null
+        val isValidEmail = emailInputState.error.value == null
+        val isValidPassword = passwordInputState.error.value == null
 
-        return if(isValidEmail || isValidPassword) {
+        return if(!isValidEmail || !isValidPassword) {
             null
         } else {
             CredentialsData(
@@ -83,7 +85,11 @@ class LoginViewModel @Inject constructor(
     ) = viewModelScope.launch(
         Dispatchers.IO
     ) {
-
+        try {
+            authRepository.loginCredentials(credentialsData)
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
     }
 }
 

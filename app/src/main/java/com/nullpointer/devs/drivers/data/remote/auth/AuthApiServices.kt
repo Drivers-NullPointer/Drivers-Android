@@ -8,6 +8,7 @@ import com.nullpointer.devs.drivers.data.model.auth.dto.RefreshDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RefreshTokenResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RegisterDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RegisterResponseDTO
+import retrofit2.http.Body
 import retrofit2.http.POST
 
 
@@ -23,8 +24,10 @@ interface AuthApiServices {
      * @param loginDTO The login data transfer object containing the user's credentials.
      * @return A [LoginResponseDTO] containing the authentication response, including a token and user data.
      */
-    @POST("login")
-    suspend fun login(loginDTO: LoginDTO): LoginResponseDTO
+    @POST("auth/login")
+    suspend fun login(
+        @Body loginDTO: LoginDTO
+    ): LoginResponseDTO
 
     /**
      * Makes a POST request to the register endpoint to create a new user account.
@@ -32,8 +35,8 @@ interface AuthApiServices {
      * @param registerDTO The registration data transfer object containing the user's information.
      * @return A [RegisterResponseDTO] containing the registration response, including a token and user data.
      */
-    @POST("register")
-    suspend fun register(registerDTO: RegisterDTO): RegisterResponseDTO
+    @POST("auth/register")
+    suspend fun register(@Body registerDTO: RegisterDTO): RegisterResponseDTO
 
     /**
      * Makes a POST request to the refresh endpoint to obtain a new authentication token.
@@ -41,8 +44,8 @@ interface AuthApiServices {
      * @param refreshDTO The refresh data transfer object containing the old refresh token.
      * @return A [RefreshTokenResponseDTO] containing the new authentication and refresh tokens.
      */
-    @POST("refresh")
-    suspend fun refresh(refreshDTO: RefreshDTO): RefreshTokenResponseDTO
+    @POST("auth/refresh")
+    suspend fun refresh(@Body refreshDTO: RefreshDTO): RefreshTokenResponseDTO
 
     /**
      * Makes a POST request to the forgot-password endpoint to initiate the password recovery process.
@@ -50,6 +53,6 @@ interface AuthApiServices {
      * @param forgotPasswordDTO The data transfer object containing the user's email for password recovery.
      * @return A [ForgotPasswordResponseDTO] containing a message indicating the result of the request.
      */
-    @POST("forgot-password")
-    suspend fun forgotPassword(forgotPasswordDTO: ForgotPasswordDTO): ForgotPasswordResponseDTO
+    @POST("auth/forgot-password")
+    suspend fun forgotPassword(@Body forgotPasswordDTO: ForgotPasswordDTO): ForgotPasswordResponseDTO
 }

@@ -4,6 +4,7 @@ import com.nullpointer.devs.drivers.BuildConfig
 import com.nullpointer.devs.drivers.data.local.auth.AuthLocalDataSource
 import com.nullpointer.devs.drivers.data.remote.auth.AuthRemoteDataSource
 import com.nullpointer.devs.drivers.data.remote.auth.SigningInterceptor
+import com.nullpointer.devs.drivers.data.remote.auth.TimberLoggingInterceptor
 import com.nullpointer.devs.drivers.data.remote.auth.TokenAuthenticator
 import dagger.Lazy
 import dagger.Module
@@ -21,6 +22,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
+
+    @Provides
+    @Singleton
+    fun provideLoggerInterceptor(): TimberLoggingInterceptor = TimberLoggingInterceptor()
 
     @Provides
     @Singleton
@@ -43,10 +48,12 @@ object ApiModule {
     @Singleton
     fun provideHttpClient(
         headerMobileInterceptor: SigningInterceptor,
-        tokenAuthenticator: TokenAuthenticator
+        tokenAuthenticator: TokenAuthenticator,
+        loggerInterceptor: TimberLoggingInterceptor
     ): OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(headerMobileInterceptor)
         .authenticator(tokenAuthenticator)
+        .addInterceptor(loggerInterceptor)
         .build()
 
     @Provides

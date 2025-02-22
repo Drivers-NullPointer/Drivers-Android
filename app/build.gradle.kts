@@ -107,6 +107,9 @@ dependencies {
     // destination
     implementation(libs.compose.destination)
     ksp(libs.ksp)
+    // timber
+    implementation(libs.timber)
+    implementation(libs.logger)
 
 }
 

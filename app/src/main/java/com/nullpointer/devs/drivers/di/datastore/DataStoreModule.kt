@@ -2,14 +2,11 @@ package com.nullpointer.devs.drivers.di.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore
-import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.core.handlers.ReplaceFileCorruptionHandler
 import androidx.datastore.dataStoreFile
-import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.security.crypto.EncryptedFile
 import androidx.security.crypto.MasterKeys
 import dagger.Module
@@ -25,7 +22,7 @@ import javax.inject.Singleton
 
 
 
-private const val USER_PREFERENCES = "user_preferences"
+private const val USER_PREFERENCES = "drivers_data.preferences_pb"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -48,7 +45,6 @@ object DataStoreModule {
     @Provides
     @Singleton
     fun provideMainDataStore(
-        @ApplicationContext appContext: Context,
         encryptedFile: EncryptedFile
     ): DataStore<Preferences> {
 
@@ -56,7 +52,6 @@ object DataStoreModule {
             corruptionHandler = ReplaceFileCorruptionHandler(
                 produceNewData = { emptyPreferences() }
             ),
-            migrations = listOf(SharedPreferencesMigration(appContext, USER_PREFERENCES)),
             scope = CoroutineScope(Dispatchers.IO + SupervisorJob()),
             produceFile = { encryptedFile }
         )
