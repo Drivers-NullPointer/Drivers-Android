@@ -23,4 +23,8 @@
     <string name="recover">Recuperar contraseña</string>
     <string name="send_reset_link">Enviar recuperación</string>
     <string name="reset_password_text">Recuperar contraseña</string>
+    <string name="error_user_not_found">Usuario no encontrado</string>
+    <string name="error_invalid_credentials">Verifique sus credenciales</string>
+    <string name="error_server">Hubo un error inesperado, reintente nuevamente</string>
+    <string name="error_too_many_requests">Demasiadas llamadas, reinnte en 15 minutos</string>
 </resources>

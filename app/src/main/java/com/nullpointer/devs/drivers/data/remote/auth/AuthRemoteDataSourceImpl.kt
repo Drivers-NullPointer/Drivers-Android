@@ -1,5 +1,6 @@
 package com.nullpointer.devs.drivers.data.remote.auth
 
+import com.nullpointer.devs.drivers.data.exceptions.auth.AuthException
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginDTO
@@ -8,6 +9,7 @@ import com.nullpointer.devs.drivers.data.model.auth.dto.RefreshDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RefreshTokenResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RegisterDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RegisterResponseDTO
+import retrofit2.HttpException
 
 /**
  * Implementation of the [AuthRemoteDataSource] interface.
@@ -23,9 +25,26 @@ class AuthRemoteDataSourceImpl(
      *
      * @param loginDTO The data transfer object containing the user's credentials (email and password).
      * @return A [LoginResponseDTO] containing the authentication response, including the token and user data.
+     * @throws AuthException.LoginException.UserNotFoundException If the user is not found (HTTP 401).
+     * @throws AuthException.LoginException.InvalidCredentialsException If the credentials are invalid (HTTP 403).
+     * @throws AuthException.LoginException.ServerException If an unexpected server error occurs.
+     * @throws AuthException.LoginException.TooManyRequestsException If too many requests are made (HTTP 429).
+     * @throws AuthException.UnknownException If an unknown error occurs.
      */
-    override suspend fun login(loginDTO: LoginDTO): LoginResponseDTO =
-        authApiServices.login(loginDTO)
+    override suspend fun login(loginDTO: LoginDTO): LoginResponseDTO {
+        return try {
+            authApiServices.login(loginDTO)
+        } catch (e: HttpException) {
+            throw when (e.code()) {
+                401 -> AuthException.LoginException.UserNotFoundException(e.message())
+                403 -> AuthException.LoginException.InvalidCredentialsException(e.message())
+                429 -> AuthException.LoginException.TooManyRequestsException(e.message())
+                else -> AuthException.LoginException.ServerException(e.message())
+            }
+        } catch (e: Exception) {
+            throw AuthException.UnknownException(e.message ?: "An unknown error occurred")
+        }
+    }
 
     /**
      * Registers a new user by calling the backend API's register method.

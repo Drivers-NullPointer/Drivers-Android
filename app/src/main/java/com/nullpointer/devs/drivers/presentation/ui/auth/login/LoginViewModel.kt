@@ -7,19 +7,24 @@ import androidx.lifecycle.viewModelScope
 import com.nullpointer.devs.drivers.R
 import com.nullpointer.devs.drivers.domain.model.CredentialsData
 import com.nullpointer.devs.drivers.domain.repository.AuthRepository
+import com.nullpointer.devs.drivers.domain.useCase.auth.login.LoginUseCase
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.ValidatorRule
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val authRepository: AuthRepository
+    private val loginUseCase: LoginUseCase
 ) : ViewModel() {
 
     companion object{
@@ -61,6 +66,12 @@ class LoginViewModel @Inject constructor(
         hint = R.string.password_hint
     )
 
+    private val _errorLogin = Channel<Int>()
+    val errorLogin = _errorLogin.receiveAsFlow()
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
     fun validateFields():CredentialsData?{
         emailInputState.validate()
         passwordInputState.validate()
@@ -80,16 +91,14 @@ class LoginViewModel @Inject constructor(
     }
 
 
-    fun login(
-        credentialsData: CredentialsData
-    ) = viewModelScope.launch(
-        Dispatchers.IO
-    ) {
-        try {
-            authRepository.loginCredentials(credentialsData)
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
+    fun login(credentials: CredentialsData) {
+        loginUseCase.login(
+            scope = viewModelScope,
+            credentialsData = credentials,
+            onStarted = { _isLoading.value = true },
+            onFinished = { _isLoading.value = false },
+            onError = { errorResId -> _errorLogin.send(errorResId) },
+        )
     }
 }
 
