@@ -24,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -64,7 +66,10 @@ fun LoginComponent(
         }
     }
 
+    val isLogin by viewModel.isLoading.collectAsState()
+
     LoginComponent(
+        isLoading = isLogin,
         modifier = Modifier.fillMaxSize(),
         emailInputState = viewModel.emailInputState,
         passwordState = viewModel.passwordInputState,

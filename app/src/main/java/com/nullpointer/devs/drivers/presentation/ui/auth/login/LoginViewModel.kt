@@ -30,6 +30,8 @@ class LoginViewModel @Inject constructor(
     companion object{
         const val KEY_EMAIL_LOGIN = "EMAIL_LOGIN"
         const val KEY_PASSWORD_LOGIN = "PASSWORD_LOGIN"
+        const val MAX_LENGTH_PASSWORD = 50
+        const val MAX_LENGTH_EMAIL = 50
     }
 
     val emailInputState = InputState(
@@ -50,7 +52,8 @@ class LoginViewModel @Inject constructor(
         ),
         key = KEY_EMAIL_LOGIN,
         label = R.string.email,
-        hint = R.string.email_hint
+        hint = R.string.email_hint,
+        maxLength = MAX_LENGTH_EMAIL
     )
 
     val passwordInputState = PasswordState(
@@ -63,7 +66,8 @@ class LoginViewModel @Inject constructor(
             )
         ),
         label = R.string.password,
-        hint = R.string.password_hint
+        hint = R.string.password_hint,
+        maxLength = MAX_LENGTH_PASSWORD
     )
 
     private val _errorLogin = Channel<Int>()

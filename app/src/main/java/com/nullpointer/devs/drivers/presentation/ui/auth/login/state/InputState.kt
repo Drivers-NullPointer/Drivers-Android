@@ -16,7 +16,8 @@ open class InputState(
     @StringRes val hint: Int? = null,
     val validators: List<ValidatorRule>,
     private val savedStateHandle: SavedStateHandle,
-    private val key: String
+    private val key: String,
+    private val maxLength: Int? = null
 ) {
     val value = savedStateHandle.getStateFlow(key, currentValue)
 
@@ -25,7 +26,9 @@ open class InputState(
 
     val hasError: Flow<Boolean> = _error.map { it != null }
 
+
     fun onValueChanged(value: String) {
+        if (maxLength != null && value.length > maxLength) return
         savedStateHandle[key] = value
         _error.value = validators
             .filter { it.validateOnChange }

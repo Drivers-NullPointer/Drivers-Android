@@ -16,14 +16,16 @@ class PasswordState(
     hint: Int? = null,
     validators: List<ValidatorRule>,
     savedStateHandle: SavedStateHandle,
-    key: String
+    key: String,
+    maxLength: Int? = null
 ) : InputState(
     currentValue = currentValue,
     validators = validators,
     label = label,
     hint = hint,
     savedStateHandle = savedStateHandle,
-    key = key
+    key = key,
+    maxLength = maxLength
 ) {
 
     private val _isPasswordVisible = MutableStateFlow(false)
