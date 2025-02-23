@@ -27,4 +27,12 @@
     <string name="error_invalid_credentials">Verifique sus credenciales</string>
     <string name="error_server">Hubo un error inesperado, reintente nuevamente</string>
     <string name="error_too_many_requests">Demasiadas llamadas, reinnte en 15 minutos</string>
+    <string name="error_min_name_length">El nombre no puede ser tan corto</string>
+    <string name="error_max_name_length">El nombre no puede ser tan largo</string>
+    <string name="error_min_last_name_length">El apellido no puede ser tan corto</string>
+    <string name="error_max_last_name_length">El apellido no puede ser muy largo</string>
+    <string name="error_max_email_length">El correo no puede ser tan largo</string>
+    <string name="error_min_password_length">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="error_max_password_length">La contraseña no puede ser tan larga</string>
+    <string name="error_user_already_exists">El correo ya se encuentra registrado</string>
 </resources>

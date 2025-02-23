@@ -19,7 +19,8 @@ import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 fun TextFieldComponent(
     state: InputState,
     modifier: Modifier = Modifier,
-    isEnable: Boolean = true
+    isEnable: Boolean = true,
+    singleLine: Boolean = true
 ) {
 
     val value by state.value.collectAsState()
@@ -29,6 +30,7 @@ fun TextFieldComponent(
         modifier = modifier
     ) {
         OutlinedTextField(
+            singleLine = singleLine,
             modifier = Modifier.fillMaxWidth(),
             value = value,
             isError = error != null,

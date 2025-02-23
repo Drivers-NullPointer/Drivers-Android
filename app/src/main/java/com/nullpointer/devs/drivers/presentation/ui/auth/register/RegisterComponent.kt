@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -17,9 +16,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,31 +32,42 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import com.nullpointer.devs.drivers.R
+import com.nullpointer.devs.drivers.presentation.state.BasicScreenState
+import com.nullpointer.devs.drivers.presentation.state.rememberBasicScreenState
 import com.nullpointer.devs.drivers.presentation.ui.components.PasswordFieldComponent
 import com.nullpointer.devs.drivers.presentation.ui.components.TextFieldComponent
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
 import com.nullpointer.devs.drivers.presentation.ui.graph.AuthGraph
 import com.ramcosta.composedestinations.annotation.Destination
+import kotlinx.coroutines.flow.collect
 
 
 @Destination<AuthGraph>
 @Composable
 fun RegisterComponent(
-    registerViewModel: RegisterViewModel = hiltViewModel()
+    registerViewModel: RegisterViewModel = hiltViewModel(),
+    registerScreenState: BasicScreenState = rememberBasicScreenState()
 ) {
 
+    LaunchedEffect(key1 = Unit) {
+        registerViewModel.message.collect{
+            registerScreenState.showSnackbar(it)
+        }
+    }
+
     RegisterComponent(
+        nameState = registerViewModel.nameInputState,
         emailInputState = registerViewModel.emailInputState,
         passwordState = registerViewModel.passwordInputState,
         lastNameState = registerViewModel.lastNameInputState,
-        nameState = registerViewModel.nameInputState,
         birthDateState = registerViewModel.birthdayInputState,
-        validateForm = {
-
-        },
+        snackbarHostState = registerScreenState.snackbarHostState,
         registerAction = {
-
+            registerScreenState.hideKeyboard()
+            registerViewModel.validateFields()?.let { registerData ->
+                registerViewModel.register(registerData)
+            }
         }
     )
 }
@@ -67,11 +80,12 @@ private fun RegisterComponent(
     nameState: InputState,
     birthDateState: InputState,
     modifier: Modifier = Modifier,
-    validateForm: () -> Unit = {},
-    registerAction: () -> Unit = {}
+    registerAction: () -> Unit = {},
+    snackbarHostState: SnackbarHostState,
 ) {
     Scaffold(
-        modifier = modifier
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -133,7 +147,7 @@ private fun RegisterComponent(
 
 
                     ExtendedFloatingActionButton(
-                        onClick = validateForm,
+                        onClick = registerAction,
                         modifier = Modifier.width(200.dp)
                     ) {
                         Text(text = stringResource(R.string.register_text_button))
@@ -152,7 +166,9 @@ private fun RegisterComponent(
 )
 @Composable
 private fun RegisterComponentPreview() {
+    val snackbarHostState = remember { SnackbarHostState() }
     RegisterComponent(
+        snackbarHostState = snackbarHostState,
         emailInputState = InputState(
             currentValue = "value",
             label = null,
@@ -203,7 +219,10 @@ private fun RegisterComponentPreview() {
 )
 @Composable
 private fun RegisterComponentPreviewTablet() {
+    val snackbarHostState = remember { SnackbarHostState() }
+
     RegisterComponent(
+        snackbarHostState = snackbarHostState,
         emailInputState = InputState(
             currentValue = "value",
             label = null,

@@ -26,6 +26,7 @@ fun PasswordFieldComponent(
     state: PasswordState,
     isEnable: Boolean = true,
     modifier: Modifier = Modifier,
+    singleLine: Boolean = true
 ) {
 
     val value by state.value.collectAsState()
@@ -36,6 +37,7 @@ fun PasswordFieldComponent(
         modifier = modifier
     ) {
         OutlinedTextField(
+            singleLine = singleLine,
             enabled = isEnable,
             modifier = Modifier.fillMaxWidth(),
             value = value,

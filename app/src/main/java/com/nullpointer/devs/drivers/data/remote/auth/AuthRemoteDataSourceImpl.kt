@@ -51,9 +51,24 @@ class AuthRemoteDataSourceImpl(
      *
      * @param registerDTO The data transfer object containing the user's information for registration.
      * @return A [RegisterResponseDTO] containing the registration response, including the token and user data.
+     * @throws AuthException.RegisterException.UserAlreadyExistsException If the user already exists (HTTP 409).
+     * @throws AuthException.RegisterException.ServerException If an unexpected server error occurs.
+     * @throws AuthException.RegisterException.TooManyRequestsException If too many requests are made (HTTP 429).
+     * @throws AuthException.UnknownException If an unknown error occurs.
      */
-    override suspend fun register(registerDTO: RegisterDTO): RegisterResponseDTO =
-        authApiServices.register(registerDTO)
+    override suspend fun register(registerDTO: RegisterDTO): RegisterResponseDTO{
+        return try {
+            authApiServices.register(registerDTO)
+        } catch (e: HttpException) {
+            throw when (e.code()) {
+                409 -> AuthException.RegisterException.UserAlreadyExistsException(e.message())
+                429 -> AuthException.RegisterException.TooManyRequestsException(e.message())
+                else -> AuthException.RegisterException.ServerException(e.message())
+            }
+        } catch (e: Exception) {
+            throw AuthException.UnknownException(e.message ?: "An unknown error occurred")
+        }
+    }
 
     /**
      * Refreshes the authentication token by calling the backend API's refresh method.
