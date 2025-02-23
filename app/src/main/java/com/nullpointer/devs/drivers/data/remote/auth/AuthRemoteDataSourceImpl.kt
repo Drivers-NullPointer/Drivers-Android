@@ -84,6 +84,11 @@ class AuthRemoteDataSourceImpl(
      *
      * @param forgotPasswordDTO The data transfer object containing the user's email address for password recovery.
      * @return A [ForgotPasswordResponseDTO] containing a message indicating the result of the recovery request.
+     * @throws AuthException.ForgotException.UserNotFoundException If the user is not found (HTTP 404).
+     * @throws AuthException.ForgotException.EmailUserNotVerifiedException If the email is not verified (HTTP 403).
+     * @throws AuthException.ForgotException.TooManyRequestsException If too many requests are made (HTTP 429).
+     * @throws AuthException.ForgotException.ServerException If an unexpected server error occurs.
+     * @throws AuthException.UnknownException If an unknown error occurs.
      */
     override suspend fun forgotPassword(forgotPasswordDTO: ForgotPasswordDTO): ForgotPasswordResponseDTO {
         return try {
