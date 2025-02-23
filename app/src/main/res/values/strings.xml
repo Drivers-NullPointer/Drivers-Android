@@ -35,4 +35,5 @@
     <string name="error_min_password_length">La contraseña debe tener al menos 6 caracteres</string>
     <string name="error_max_password_length">La contraseña no puede ser tan larga</string>
     <string name="error_user_already_exists">El correo ya se encuentra registrado</string>
+    <string name="error_email_not_verified">El correo proporcionado no ha sido verifico antes</string>
 </resources>

@@ -42,7 +42,7 @@ class AuthRemoteDataSourceImpl(
                 else -> AuthException.LoginException.ServerException(e.message())
             }
         } catch (e: Exception) {
-            throw AuthException.UnknownException(e.message ?: "An unknown error occurred")
+            throw AuthException.UnknownException(e.message ?: "An unknown error occurred while logging in")
         }
     }
 
@@ -66,7 +66,7 @@ class AuthRemoteDataSourceImpl(
                 else -> AuthException.RegisterException.ServerException(e.message())
             }
         } catch (e: Exception) {
-            throw AuthException.UnknownException(e.message ?: "An unknown error occurred")
+            throw AuthException.UnknownException(e.message ?: "An unknown error occurred while registering")
         }
     }
 
@@ -85,6 +85,18 @@ class AuthRemoteDataSourceImpl(
      * @param forgotPasswordDTO The data transfer object containing the user's email address for password recovery.
      * @return A [ForgotPasswordResponseDTO] containing a message indicating the result of the recovery request.
      */
-    override suspend fun forgotPassword(forgotPasswordDTO: ForgotPasswordDTO): ForgotPasswordResponseDTO =
-        authApiServices.forgotPassword(forgotPasswordDTO)
+    override suspend fun forgotPassword(forgotPasswordDTO: ForgotPasswordDTO): ForgotPasswordResponseDTO {
+        return try {
+            authApiServices.forgotPassword(forgotPasswordDTO)
+        } catch (e:HttpException){
+            throw when(e.code()){
+                403 -> AuthException.ForgotException.EmailUserNotVerifiedException(e.message())
+                404 -> AuthException.ForgotException.UserNotFoundException(e.message())
+                429 -> AuthException.ForgotException.TooManyRequestsException(e.message())
+                else -> AuthException.ForgotException.ServerException(e.message())
+            }
+        }catch (e:Exception){
+            throw AuthException.UnknownException(e.message ?: "An unknown error occurred while recovering password")
+        }
+    }
 }

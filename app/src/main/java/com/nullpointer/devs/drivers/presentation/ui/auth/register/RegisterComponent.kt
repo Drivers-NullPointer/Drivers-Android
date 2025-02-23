@@ -167,6 +167,9 @@ private fun RegisterComponent(
 @Composable
 private fun RegisterComponentPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
+    val saveStateHandle = remember {
+        SavedStateHandle()
+    }
     RegisterComponent(
         snackbarHostState = snackbarHostState,
         emailInputState = InputState(
@@ -174,7 +177,7 @@ private fun RegisterComponentPreview() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         ),
         passwordState = PasswordState(
@@ -182,7 +185,7 @@ private fun RegisterComponentPreview() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         ),
         lastNameState = InputState(
@@ -190,7 +193,7 @@ private fun RegisterComponentPreview() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         ),
         nameState = InputState(
@@ -198,7 +201,7 @@ private fun RegisterComponentPreview() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         ),
         birthDateState = InputState(
@@ -206,7 +209,7 @@ private fun RegisterComponentPreview() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         )
     )
@@ -220,6 +223,9 @@ private fun RegisterComponentPreview() {
 @Composable
 private fun RegisterComponentPreviewTablet() {
     val snackbarHostState = remember { SnackbarHostState() }
+    val saveStateHandle = remember {
+        SavedStateHandle()
+    }
 
     RegisterComponent(
         snackbarHostState = snackbarHostState,
@@ -228,7 +234,7 @@ private fun RegisterComponentPreviewTablet() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         ),
         passwordState = PasswordState(
@@ -236,7 +242,7 @@ private fun RegisterComponentPreviewTablet() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         ),
         lastNameState = InputState(
@@ -244,7 +250,7 @@ private fun RegisterComponentPreviewTablet() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         ),
         nameState = InputState(
@@ -252,7 +258,7 @@ private fun RegisterComponentPreviewTablet() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         ),
         birthDateState = InputState(
@@ -260,7 +266,7 @@ private fun RegisterComponentPreviewTablet() {
             label = null,
             hint = null,
             validators = emptyList(),
-            savedStateHandle = SavedStateHandle(),
+            savedStateHandle = saveStateHandle,
             key = ""
         )
     )

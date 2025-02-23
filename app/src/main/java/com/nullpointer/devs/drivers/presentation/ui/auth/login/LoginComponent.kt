@@ -1,6 +1,5 @@
 package com.nullpointer.devs.drivers.presentation.ui.auth.login
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,11 +26,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +47,6 @@ import com.nullpointer.devs.drivers.presentation.ui.graph.AuthGraph
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.generated.destinations.ForgotPasswordComponentDestination
 import com.ramcosta.composedestinations.generated.destinations.RegisterComponentDestination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 @Destination<AuthGraph>(start = true)
@@ -61,7 +57,7 @@ fun LoginComponent(
     basicScreenState: BasicScreenState = rememberBasicScreenState(),
 ) {
     LaunchedEffect(key1 = Unit) {
-        viewModel.errorLogin.collect {
+        viewModel.message.collect {
             basicScreenState.showSnackbar(it)
         }
     }
@@ -216,6 +212,9 @@ private fun LoginComponent(
 @Composable
 private fun LoginComponentPreview() {
     val snackbarHostState = remember { SnackbarHostState() }
+    val saveStateHandle = remember {
+        SavedStateHandle()
+    }
     LoginComponent(
         snackbarHostState = snackbarHostState,
         emailInputState = InputState(
@@ -224,7 +223,7 @@ private fun LoginComponentPreview() {
             hint = null,
             validators = emptyList(),
             key = "",
-            savedStateHandle = SavedStateHandle()
+            savedStateHandle = saveStateHandle
         ),
         passwordState = PasswordState(
             currentValue = "value",
@@ -232,7 +231,7 @@ private fun LoginComponentPreview() {
             hint = null,
             validators = emptyList(),
             key = "",
-            savedStateHandle = SavedStateHandle()
+            savedStateHandle = saveStateHandle
         )
     )
 }
@@ -245,6 +244,9 @@ private fun LoginComponentPreview() {
 @Composable
 private fun LoginComponentPreviewTablet() {
     val snackbarHostState = remember { SnackbarHostState() }
+    val saveStateHandle = remember {
+        SavedStateHandle()
+    }
     LoginComponent(
         snackbarHostState = snackbarHostState,
         emailInputState = InputState(
@@ -253,7 +255,7 @@ private fun LoginComponentPreviewTablet() {
             hint = null,
             validators = emptyList(),
             key = "",
-            savedStateHandle = SavedStateHandle()
+            savedStateHandle =saveStateHandle
         ),
         passwordState = PasswordState(
             currentValue = "value",
@@ -261,7 +263,7 @@ private fun LoginComponentPreviewTablet() {
             hint = null,
             validators = emptyList(),
             key = "",
-            savedStateHandle = SavedStateHandle()
+            savedStateHandle = saveStateHandle
         )
     )
 }

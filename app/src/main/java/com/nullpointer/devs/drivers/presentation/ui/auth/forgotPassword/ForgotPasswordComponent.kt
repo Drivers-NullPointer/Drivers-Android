@@ -16,15 +16,24 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.SavedStateHandle
 import com.nullpointer.devs.drivers.R
+import com.nullpointer.devs.drivers.presentation.state.BasicScreenState
+import com.nullpointer.devs.drivers.presentation.state.rememberBasicScreenState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.components.TextFieldComponent
 import com.nullpointer.devs.drivers.presentation.ui.graph.AuthGraph
@@ -33,13 +42,25 @@ import com.ramcosta.composedestinations.annotation.Destination
 @Destination<AuthGraph>
 @Composable
 fun ForgotPasswordComponent(
-    forgotPasswordViewModel: ForgotPasswordViewModel = hiltViewModel()
+    forgotPasswordViewModel: ForgotPasswordViewModel = hiltViewModel(),
+    forgotScreenState:BasicScreenState = rememberBasicScreenState()
 ) {
+
+    LaunchedEffect(key1 = Unit) {
+        forgotPasswordViewModel.message.collect {
+            forgotScreenState.showSnackbar(it)
+        }
+    }
+
 
     ForgotPasswordComponent(
         emailInputState = forgotPasswordViewModel.emailInputState,
-        validateForm = {
-
+        snackbarHostState = forgotScreenState.snackbarHostState,
+        forgotPasswordAction = {
+            forgotScreenState.hideKeyboard()
+            forgotPasswordViewModel.validateForm()?.let {
+                forgotPasswordViewModel.forgotPassword(it)
+            }
         }
     )
 }
@@ -49,11 +70,12 @@ fun ForgotPasswordComponent(
 private fun ForgotPasswordComponent(
     emailInputState: InputState,
     modifier: Modifier = Modifier,
-    validateForm: () -> Unit = {},
-    forgotPasswordAction: () -> Unit = {}
+    forgotPasswordAction: () -> Unit = {},
+    snackbarHostState: SnackbarHostState
 ) {
     Scaffold(
-        modifier = modifier
+        modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
     ) { paddingValues ->
         Box(
             modifier = Modifier
@@ -95,7 +117,7 @@ private fun ForgotPasswordComponent(
                     )
 
                         ExtendedFloatingActionButton(
-                            onClick = validateForm,
+                            onClick = forgotPasswordAction,
                             modifier = Modifier.width(200.dp)
                         ) {
                             Text(text = stringResource(R.string.send_reset_link))
@@ -106,3 +128,58 @@ private fun ForgotPasswordComponent(
             }
         }
     }
+
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.PIXEL_4_XL
+)
+@Composable
+fun ForgotPasswordComponentPreview() {
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    val saveStateHandle = remember {
+        SavedStateHandle()
+    }
+    ForgotPasswordComponent(
+        emailInputState = InputState(
+            label = R.string.email,
+            hint = R.string.email,
+            validators = listOf(),
+            key = "email",
+            savedStateHandle = saveStateHandle,
+            currentValue = ""
+        ),
+        snackbarHostState = snackbarHostState
+    )
+
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.TABLET
+)
+@Composable
+fun ForgotPasswordComponentPreviewTablet() {
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
+    val saveStateHandle = remember {
+        SavedStateHandle()
+    }
+    ForgotPasswordComponent(
+        emailInputState = InputState(
+            label = R.string.email,
+            hint = R.string.email,
+            validators = listOf(),
+            key = "email",
+            savedStateHandle = saveStateHandle,
+            currentValue = ""
+        ),
+        snackbarHostState = snackbarHostState
+    )
+
+}

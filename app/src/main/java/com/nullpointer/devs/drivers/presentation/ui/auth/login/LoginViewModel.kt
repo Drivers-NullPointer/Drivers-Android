@@ -6,19 +6,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nullpointer.devs.drivers.R
 import com.nullpointer.devs.drivers.domain.model.CredentialsData
-import com.nullpointer.devs.drivers.domain.repository.AuthRepository
 import com.nullpointer.devs.drivers.domain.useCase.auth.login.LoginUseCase
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.PasswordState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.ValidatorRule
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -70,8 +66,8 @@ class LoginViewModel @Inject constructor(
         maxLength = MAX_LENGTH_PASSWORD
     )
 
-    private val _errorLogin = Channel<Int>()
-    val errorLogin = _errorLogin.receiveAsFlow()
+    private val _message = Channel<Int>()
+    val message = _message.receiveAsFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
@@ -101,7 +97,7 @@ class LoginViewModel @Inject constructor(
             credentialsData = credentials,
             onStarted = { _isLoading.value = true },
             onFinished = { _isLoading.value = false },
-            onError = { errorResId -> _errorLogin.send(errorResId) },
+            onError = { errorResId -> _message.send(errorResId) },
         )
     }
 }

@@ -15,5 +15,12 @@ sealed class AuthException(message: String) : Exception(message){
         class TooManyRequestsException(message: String) : RegisterException(message)
     }
 
+    sealed class ForgotException(message: String) : AuthException(message){
+        class EmailUserNotVerifiedException(message: String) : ForgotException(message)
+        class UserNotFoundException(message: String) : ForgotException(message)
+        class ServerException(message: String) : ForgotException(message)
+        class TooManyRequestsException(message: String) : ForgotException(message)
+    }
+
     class UnknownException(message: String) : AuthException(message)
 }
