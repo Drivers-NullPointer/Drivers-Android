@@ -1,5 +1,7 @@
 package com.nullpointer.devs.drivers.presentation.ui.auth.forgotPassword
 
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -33,22 +35,36 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import com.nullpointer.devs.drivers.R
 import com.nullpointer.devs.drivers.presentation.state.BasicScreenState
+import com.nullpointer.devs.drivers.presentation.state.NavigateRoot
 import com.nullpointer.devs.drivers.presentation.state.rememberBasicScreenState
 import com.nullpointer.devs.drivers.presentation.ui.auth.login.state.InputState
 import com.nullpointer.devs.drivers.presentation.ui.components.TextFieldComponent
 import com.nullpointer.devs.drivers.presentation.ui.graph.AuthGraph
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.delay
+import timber.log.Timber
 
 @Destination<AuthGraph>
 @Composable
 fun ForgotPasswordComponent(
+    navigateRoot: NavigateRoot,
+    destinationsNavigator: DestinationsNavigator,
+    forgotScreenState:BasicScreenState = rememberBasicScreenState(),
     forgotPasswordViewModel: ForgotPasswordViewModel = hiltViewModel(),
-    forgotScreenState:BasicScreenState = rememberBasicScreenState()
 ) {
 
     LaunchedEffect(key1 = Unit) {
         forgotPasswordViewModel.message.collect {
             forgotScreenState.showSnackbar(it)
+        }
+    }
+
+    LaunchedEffect(key1 =Unit) {
+        forgotPasswordViewModel.backAction.collect {
+            forgotScreenState.showSnackbar(R.string.reset_password_send_success)
+            delay(1000)
+            destinationsNavigator.popBackStack()
         }
     }
 

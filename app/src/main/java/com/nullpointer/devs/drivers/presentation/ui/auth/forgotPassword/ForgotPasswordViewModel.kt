@@ -31,6 +31,9 @@ class ForgotPasswordViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
+    private val _backAction = Channel<Unit>()
+    val backAction = _backAction.receiveAsFlow()
+
 
     val emailInputState = InputState(
         savedStateHandle = savedStateHandle,
@@ -67,7 +70,8 @@ class ForgotPasswordViewModel @Inject constructor(
             forgotData = forgotData,
             onError = { _message.send(it) },
             onStarted = { _isLoading.value = true },
-            onFinished = { _isLoading.value = false }
+            onFinished = { _isLoading.value = false },
+            onSuccessful = { _backAction.send(Unit) }
         )
     }
 

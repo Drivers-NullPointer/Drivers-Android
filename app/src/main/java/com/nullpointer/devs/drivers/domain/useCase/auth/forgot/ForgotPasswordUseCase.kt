@@ -10,6 +10,7 @@ interface ForgotPasswordUseCase {
         onError: suspend (Int) -> Unit,
         onStarted: suspend () -> Unit,
         onFinished: suspend () -> Unit,
+        onSuccessful: suspend () -> Unit,
         forgotData: ForgotPasswordData
     )
 }

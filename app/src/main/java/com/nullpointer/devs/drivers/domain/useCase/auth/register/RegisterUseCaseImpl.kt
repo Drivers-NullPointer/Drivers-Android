@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * Implementation of `RegisterUseCase` that handles user registration
@@ -58,6 +59,7 @@ class RegisterUseCaseImpl(
      */
     private fun handleRegisterError(exception: Exception): Int {
         return when (exception) {
+            is CancellationException -> throw exception
             is AuthException.RegisterException.UserAlreadyExistsException -> {
                 Timber.e("User already exists: ${exception.message}")
                 R.string.error_user_already_exists
@@ -70,7 +72,10 @@ class RegisterUseCaseImpl(
                 Timber.e("Server error: ${exception.message}")
                 R.string.error_server
             }
-            else -> throw exception
+            else -> {
+                Timber.e("Unknown error: ${exception.message}")
+                R.string.error_server
+            }
         }
     }
 }

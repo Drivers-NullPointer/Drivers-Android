@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * Implementation of [LoginUseCase] that handles the login process.
@@ -60,6 +61,7 @@ class LoginUseCaseImpl(
      */
     private fun handleLoginError(exception: Exception): Int {
         return when (exception) {
+            is CancellationException -> throw exception
             is AuthException.LoginException.UserNotFoundException -> {
                 Timber.e("User not found while logging in: $exception")
                 R.string.error_user_not_found
@@ -76,7 +78,10 @@ class LoginUseCaseImpl(
                 Timber.e("Too many requests while logging in: $exception")
                 R.string.error_too_many_requests
             }
-            else -> throw exception // Throws unknown exceptions to be handled at a higher level.
+            else -> {
+                Timber.e("Unknown error while logging in: $exception")
+                R.string.error_server
+            }
         }
     }
 }

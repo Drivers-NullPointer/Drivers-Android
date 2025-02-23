@@ -36,4 +36,5 @@
     <string name="error_max_password_length">La contraseña no puede ser tan larga</string>
     <string name="error_user_already_exists">El correo ya se encuentra registrado</string>
     <string name="error_email_not_verified">El correo proporcionado no ha sido verifico antes</string>
+    <string name="reset_password_send_success">Se envio el link a su correo</string>
 </resources>
