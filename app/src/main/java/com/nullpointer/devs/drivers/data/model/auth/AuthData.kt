@@ -7,4 +7,5 @@ data class AuthData(
     val id:Long,
     val token:String,
     val refreshToken:String,
+    val isEmailVerified: Boolean
 )
