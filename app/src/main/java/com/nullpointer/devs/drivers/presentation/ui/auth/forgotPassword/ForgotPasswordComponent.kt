@@ -49,7 +49,6 @@ import timber.log.Timber
 @Composable
 fun ForgotPasswordComponent(
     navigateRoot: NavigateRoot,
-    destinationsNavigator: DestinationsNavigator,
     forgotScreenState:BasicScreenState = rememberBasicScreenState(),
     forgotPasswordViewModel: ForgotPasswordViewModel = hiltViewModel(),
 ) {
@@ -63,8 +62,8 @@ fun ForgotPasswordComponent(
     LaunchedEffect(key1 =Unit) {
         forgotPasswordViewModel.backAction.collect {
             forgotScreenState.showSnackbar(R.string.reset_password_send_success)
-            delay(1000)
-            destinationsNavigator.popBackStack()
+            delay(500)
+            navigateRoot.navigateBack()
         }
     }
 
