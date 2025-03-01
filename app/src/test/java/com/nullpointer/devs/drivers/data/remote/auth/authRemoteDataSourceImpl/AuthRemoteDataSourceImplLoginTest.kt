@@ -1,8 +1,10 @@
-package com.nullpointer.devs.drivers.data.remote.auth
+package com.nullpointer.devs.drivers.data.remote.auth.authRemoteDataSourceImpl
 
 import com.nullpointer.devs.drivers.data.exceptions.auth.AuthException
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginResponseDTO
+import com.nullpointer.devs.drivers.data.remote.auth.AuthApiServices
+import com.nullpointer.devs.drivers.data.remote.auth.AuthRemoteDataSourceImpl
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
