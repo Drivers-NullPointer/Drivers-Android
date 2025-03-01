@@ -1,5 +1,7 @@
 package com.nullpointer.devs.drivers.data.remote.auth
 
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailDTO
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginDTO
@@ -12,9 +14,8 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
-
 import org.junit.Test
 
 class AuthRemoteDataSourceImplTest {
@@ -112,5 +113,26 @@ class AuthRemoteDataSourceImplTest {
 
         assertEquals(expectedResponse, result)
         coVerify { authApiServices.forgotPassword(forgotPasswordDTO) }
+    }
+
+    @Test
+    fun `checkVerifyEmail should return expected CheckVerifyEmailResponseDTO`() = runBlocking {
+        val checkVerifyEmailDTO = CheckVerifyEmailDTO(
+            email = "email@correo.com"
+        )
+
+        val expectedResponse = CheckVerifyEmailResponseDTO(
+            message = "Email verified",
+            isVerified = true
+        )
+
+        coEvery { authApiServices.checkVerifyEmail(checkVerifyEmailDTO) } returns expectedResponse
+
+        val result = authRemoteDataSource.checkVerifyEmail(checkVerifyEmailDTO)
+
+        assertEquals(expectedResponse, result)
+
+        coVerify { authApiServices.checkVerifyEmail(checkVerifyEmailDTO) }
+
     }
 }

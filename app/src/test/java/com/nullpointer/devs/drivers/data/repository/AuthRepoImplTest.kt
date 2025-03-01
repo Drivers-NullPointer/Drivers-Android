@@ -1,7 +1,6 @@
 package com.nullpointer.devs.drivers.data.repository
 
 import com.nullpointer.devs.drivers.data.local.auth.AuthLocalDataSource
-import com.nullpointer.devs.drivers.data.mappers.auth.toAuthData
 import com.nullpointer.devs.drivers.data.mappers.auth.toForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.mappers.auth.toLoginDTO
 import com.nullpointer.devs.drivers.data.mappers.auth.toRegisterDTO
@@ -19,7 +18,6 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.coVerifySequence
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
@@ -45,6 +43,7 @@ class AuthRepoImplTest {
             token = "token",
             refreshToken = "refreshToken",
             id = 1,
+            isEmailVerified = true
         )
 
         coEvery { authLocalDataSource.getAuthData() } returns flowOf(authData)
@@ -61,7 +60,8 @@ class AuthRepoImplTest {
         val credentialsData = CredentialsData(email = "email", password = "password")
         val loginDTO = credentialsData.toLoginDTO()
 
-        val authData = AuthData(token = "token", refreshToken = "refreshToken", id = 1)
+        val authData =
+            AuthData(token = "token", refreshToken = "refreshToken", id = 1, isEmailVerified = true)
 
         val loginResponseDTO = LoginResponseDTO(
             token = "token",
@@ -89,7 +89,8 @@ class AuthRepoImplTest {
         )
 
         val registerDTO = registerData.toRegisterDTO()
-        val authData = AuthData(token = "token", refreshToken = "refreshToken", id = 1)
+        val authData =
+            AuthData(token = "token", refreshToken = "refreshToken", id = 1, isEmailVerified = true)
 
         val registerResponseDTO = RegisterResponseDTO(
             token = "token",
@@ -125,7 +126,8 @@ class AuthRepoImplTest {
 
     @Test
     fun `refreshToken should call remote and update local storage`() = runBlocking {
-        val authData = AuthData(refreshToken = "refreshToken", token = "token", id = 1)
+        val authData =
+            AuthData(refreshToken = "refreshToken", token = "token", id = 1, isEmailVerified = true)
         val refreshTokenDTO = RefreshDTO(refreshToken = "refreshToken")
 
         val refreshTokenResponseDTO = RefreshTokenResponseDTO(token = "newToken", refreshToken = "newRefreshToken")

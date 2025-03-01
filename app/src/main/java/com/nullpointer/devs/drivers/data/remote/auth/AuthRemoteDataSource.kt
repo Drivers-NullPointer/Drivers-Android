@@ -1,5 +1,7 @@
 package com.nullpointer.devs.drivers.data.remote.auth
 
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailDTO
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginDTO
@@ -46,4 +48,12 @@ interface AuthRemoteDataSource {
      * @return A [ForgotPasswordResponseDTO] containing a message indicating the result of the recovery request.
      */
     suspend fun forgotPassword(forgotPasswordDTO: ForgotPasswordDTO): ForgotPasswordResponseDTO
+
+    /**
+     * Checks if the email is verified by sending the user's email to the backend API.
+     *
+     * @param checkVerifyEmailDTO The data transfer object containing the user's email address for verification.
+     * @return A [CheckVerifyEmailResponseDTO] containing a message indicating the result of the verification request.
+     */
+    suspend fun checkVerifyEmail(checkVerifyEmailDTO: CheckVerifyEmailDTO): CheckVerifyEmailResponseDTO
 }

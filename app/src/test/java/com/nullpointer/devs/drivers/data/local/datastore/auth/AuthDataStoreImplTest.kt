@@ -21,7 +21,13 @@ class AuthDataStoreImplTest {
 
     @Test
     fun `saveAuthData should save authData correctly in DataStore`() = runTest {
-        val authData = AuthData(1,"token", "refreshToken")
+        val authData = AuthData(
+            id = 1,
+            token = "token",
+            refreshToken = "refreshToken",
+            isEmailVerified = true
+
+        )
         val autoDataSerializedExpected = Json.encodeToString(authData)
 
         // Mock DataStore
@@ -46,7 +52,12 @@ class AuthDataStoreImplTest {
 
     @Test
     fun `getAuthData should return authData from DataStore when it exists`() = runTest {
-        val authData = AuthData(1,"token", "refreshToken")
+        val authData = AuthData(
+            id = 1,
+            token = "token",
+            refreshToken = "refreshToken",
+            isEmailVerified = true
+        )
 
         // Mock DataStore
         val dataStore = PreferenceDataStoreFactory.create(
@@ -87,7 +98,12 @@ class AuthDataStoreImplTest {
 
     @Test
     fun `clearAuthData should remove authData from DataStore`() = runTest {
-        val authData = AuthData(1,"token", "refreshToken")
+        val authData = AuthData(
+            id = 1,
+            token = "token",
+            refreshToken = "refreshToken",
+            isEmailVerified = true
+        )
 
         // Mock DataStore
         val dataStore = PreferenceDataStoreFactory.create(

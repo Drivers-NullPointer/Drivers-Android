@@ -8,8 +8,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
-
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
@@ -27,7 +26,8 @@ class AuthLocalDataSourceImplTest {
     @Test
     fun getAuthData() = runBlocking{
 
-        val authData = AuthData(token = "token", refreshToken = "refreshToken", id = 1)
+        val authData =
+            AuthData(token = "token", refreshToken = "refreshToken", id = 1, isEmailVerified = true)
 
         coEvery { authDataStore.getAuthData() } returns flowOf(authData)
 
@@ -42,7 +42,8 @@ class AuthLocalDataSourceImplTest {
     @Test
     fun saveAuthData() = runBlocking{
 
-        val authData = AuthData(token = "token", refreshToken = "refreshToken", id = 1)
+        val authData =
+            AuthData(token = "token", refreshToken = "refreshToken", id = 1, isEmailVerified = true)
 
         coEvery { authDataStore.saveAuthData(authData) } returns Unit
 

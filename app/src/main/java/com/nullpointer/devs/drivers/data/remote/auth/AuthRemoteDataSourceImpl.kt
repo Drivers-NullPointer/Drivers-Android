@@ -1,6 +1,8 @@
 package com.nullpointer.devs.drivers.data.remote.auth
 
 import com.nullpointer.devs.drivers.data.exceptions.auth.AuthException
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailDTO
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginDTO
@@ -102,6 +104,30 @@ class AuthRemoteDataSourceImpl(
             }
         }catch (e:Exception){
             throw AuthException.UnknownException(e.message ?: "An unknown error occurred while recovering password")
+        }
+    }
+
+    /**
+     * Checks if the email is verified by calling the backend API's check verify email method.
+     *
+     * @param checkVerifyEmailDTO The data transfer object containing the user's email address for verification.
+     * @return A [CheckVerifyEmailResponseDTO] containing a message indicating the result of the verification request.
+     * @throws AuthException.CheckVerifyEmailException.ServerException If an unexpected server error occurs.
+     * @throws AuthException.CheckVerifyEmailException.UnauthorizedException If the request is unauthorized (HTTP 401).
+     * @throws AuthException.UnknownException If an unknown error occurs.
+     */
+    override suspend fun checkVerifyEmail(checkVerifyEmailDTO: CheckVerifyEmailDTO): CheckVerifyEmailResponseDTO {
+        return try {
+            authApiServices.checkVerifyEmail(checkVerifyEmailDTO)
+        } catch (e: HttpException) {
+            throw when (e.code()) {
+                401 -> AuthException.CheckVerifyEmailException.UnauthorizedException(e.message())
+                else -> AuthException.CheckVerifyEmailException.ServerException(e.message())
+            }
+        } catch (e: Exception) {
+            throw AuthException.UnknownException(
+                e.message ?: "An unknown error occurred while checking email verification"
+            )
         }
     }
 }

@@ -22,5 +22,11 @@ sealed class AuthException(message: String) : Exception(message){
         class TooManyRequestsException(message: String) : ForgotException(message)
     }
 
+    sealed class CheckVerifyEmailException(message: String) : AuthException(message) {
+        class UserNotFoundException(message: String) : CheckVerifyEmailException(message)
+        class ServerException(message: String) : CheckVerifyEmailException(message)
+        class UnauthorizedException(message: String) : CheckVerifyEmailException(message)
+    }
+
     class UnknownException(message: String) : AuthException(message)
 }
