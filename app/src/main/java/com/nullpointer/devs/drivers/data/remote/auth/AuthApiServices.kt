@@ -1,5 +1,7 @@
 package com.nullpointer.devs.drivers.data.remote.auth
 
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailDTO
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginDTO
@@ -55,4 +57,14 @@ interface AuthApiServices {
      */
     @POST("auth/forgot-password")
     suspend fun forgotPassword(@Body forgotPasswordDTO: ForgotPasswordDTO): ForgotPasswordResponseDTO
+
+
+    /**
+     * Makes a POST request to the check-verify-email endpoint to verify the user's email.
+     *
+     * @param checkVerifyEmailDTO The data transfer object containing the user's email for verification.
+     * @return A [CheckVerifyEmailResponseDTO] containing a message indicating the result of the request.
+     */
+    @POST("auth/check-verify-email")
+    suspend fun checkVerifyEmail(@Body checkVerifyEmailDTO: CheckVerifyEmailDTO): CheckVerifyEmailResponseDTO
 }
