@@ -141,6 +141,8 @@ kover{
                     "**.dagger*",
                     "**hilt*",
                     "**.model*",
+                    "**.exceptions.*",
+                    "**ramcosta**",
                 )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
                 annotatedBy("androidx.compose.runtime.Composable")
