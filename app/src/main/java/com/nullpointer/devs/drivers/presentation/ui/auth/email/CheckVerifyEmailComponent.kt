@@ -9,19 +9,33 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.nullpointer.devs.drivers.presentation.ui.graph.EmailGraph
 import com.ramcosta.composedestinations.annotation.Destination
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Destination<EmailGraph>(start = true)
 @Composable
-fun EmailComponent() {
+fun CheckVerifyEmailComponent(
+    checkVerifyEmailViewModel: CheckVerifyEmailViewModel = hiltViewModel()
+) {
+
+    LaunchedEffect(key1 = Unit) {
+        checkVerifyEmailViewModel.checkVerifyEmail()
+    }
+    CheckVerifyEmailComponent()
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun CheckVerifyEmailComponent() {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text("Verifica tu correo") })
@@ -42,10 +56,6 @@ fun EmailComponent() {
                 fontWeight = FontWeight.Medium,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-
-//            Button(onClick = onResendClick) {
-//                Text(text = "Reenviar correo de verificación")
-//            }
         }
     }
 }

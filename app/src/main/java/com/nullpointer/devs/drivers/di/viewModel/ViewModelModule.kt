@@ -1,6 +1,8 @@
 package com.nullpointer.devs.drivers.di.viewModel
 
 import com.nullpointer.devs.drivers.domain.repository.AuthRepository
+import com.nullpointer.devs.drivers.domain.useCase.auth.checkVerifyEmail.CheckVerifyEmailUseCase
+import com.nullpointer.devs.drivers.domain.useCase.auth.checkVerifyEmail.CheckVerifyEmailUseCaseImpl
 import com.nullpointer.devs.drivers.domain.useCase.auth.forgot.ForgotPasswordUseCase
 import com.nullpointer.devs.drivers.domain.useCase.auth.forgot.ForgotPasswordUseCaseImpl
 import com.nullpointer.devs.drivers.domain.useCase.auth.login.LoginUseCase
@@ -38,6 +40,14 @@ object ViewModelModule {
     fun provideForgotPasswordUseCase(
         authRepository: AuthRepository
     ): ForgotPasswordUseCase = ForgotPasswordUseCaseImpl(
+        authRepository = authRepository
+    )
+
+    @Provides
+    @Singleton
+    fun provideCheckVerifyEmailUseCase(
+        authRepository: AuthRepository
+    ): CheckVerifyEmailUseCase = CheckVerifyEmailUseCaseImpl(
         authRepository = authRepository
     )
 }
