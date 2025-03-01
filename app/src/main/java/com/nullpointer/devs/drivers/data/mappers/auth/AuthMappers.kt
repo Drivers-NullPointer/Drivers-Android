@@ -21,7 +21,8 @@ fun LoginResponseDTO.toAuthData() = AuthData(
     id = user.id,
     token = token,
     refreshToken = refreshToken,
-    isEmailVerified = user.isEmailVerified
+    isEmailVerified = user.isEmailVerified,
+    email = user.email
 )
 
 fun RegisterData.toRegisterDTO() = RegisterDTO(
@@ -36,7 +37,8 @@ fun RegisterResponseDTO.toAuthData() = AuthData(
     id = user.id,
     token = token,
     refreshToken = refreshToken,
-    isEmailVerified = user.isEmailVerified
+    isEmailVerified = user.isEmailVerified,
+    email = user.email
 )
 
 fun ForgotPasswordData.toForgotPasswordDTO() = ForgotPasswordDTO(

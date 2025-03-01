@@ -44,4 +44,11 @@ interface AuthRepository {
      * Clears authentication data if the refresh fails.
      */
     suspend fun refreshToken()
+
+
+    /**
+     * Checks if the user's email has been verified.
+     * This method is used to ensure that the user has verified their email address before proceeding.
+     */
+    suspend fun checkVerifyEmail()
 }

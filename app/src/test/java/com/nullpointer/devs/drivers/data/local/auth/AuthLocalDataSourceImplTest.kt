@@ -27,7 +27,13 @@ class AuthLocalDataSourceImplTest {
     fun getAuthData() = runBlocking{
 
         val authData =
-            AuthData(token = "token", refreshToken = "refreshToken", id = 1, isEmailVerified = true)
+            AuthData(
+                token = "token",
+                refreshToken = "refreshToken",
+                id = 1,
+                isEmailVerified = true,
+                email = "email"
+            )
 
         coEvery { authDataStore.getAuthData() } returns flowOf(authData)
 
@@ -43,7 +49,13 @@ class AuthLocalDataSourceImplTest {
     fun saveAuthData() = runBlocking{
 
         val authData =
-            AuthData(token = "token", refreshToken = "refreshToken", id = 1, isEmailVerified = true)
+            AuthData(
+                token = "token",
+                refreshToken = "refreshToken",
+                id = 1,
+                isEmailVerified = true,
+                email = "email"
+            )
 
         coEvery { authDataStore.saveAuthData(authData) } returns Unit
 

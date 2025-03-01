@@ -5,6 +5,8 @@ import com.nullpointer.devs.drivers.data.mappers.auth.toForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.mappers.auth.toLoginDTO
 import com.nullpointer.devs.drivers.data.mappers.auth.toRegisterDTO
 import com.nullpointer.devs.drivers.data.model.auth.AuthData
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailDTO
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.ForgotPasswordResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.LoginResponseDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RefreshDTO
@@ -43,7 +45,8 @@ class AuthRepoImplTest {
             token = "token",
             refreshToken = "refreshToken",
             id = 1,
-            isEmailVerified = true
+            isEmailVerified = true,
+            email = "email"
         )
 
         coEvery { authLocalDataSource.getAuthData() } returns flowOf(authData)
@@ -61,7 +64,13 @@ class AuthRepoImplTest {
         val loginDTO = credentialsData.toLoginDTO()
 
         val authData =
-            AuthData(token = "token", refreshToken = "refreshToken", id = 1, isEmailVerified = true)
+            AuthData(
+                token = "token",
+                refreshToken = "refreshToken",
+                id = 1,
+                isEmailVerified = true,
+                email = "email"
+            )
 
         val loginResponseDTO = LoginResponseDTO(
             token = "token",
@@ -90,7 +99,13 @@ class AuthRepoImplTest {
 
         val registerDTO = registerData.toRegisterDTO()
         val authData =
-            AuthData(token = "token", refreshToken = "refreshToken", id = 1, isEmailVerified = true)
+            AuthData(
+                token = "token",
+                refreshToken = "refreshToken",
+                id = 1,
+                isEmailVerified = true,
+                email = "email"
+            )
 
         val registerResponseDTO = RegisterResponseDTO(
             token = "token",
@@ -127,7 +142,13 @@ class AuthRepoImplTest {
     @Test
     fun `refreshToken should call remote and update local storage`() = runBlocking {
         val authData =
-            AuthData(refreshToken = "refreshToken", token = "token", id = 1, isEmailVerified = true)
+            AuthData(
+                refreshToken = "refreshToken",
+                token = "token",
+                id = 1,
+                isEmailVerified = true,
+                email = "email"
+            )
         val refreshTokenDTO = RefreshDTO(refreshToken = "refreshToken")
 
         val refreshTokenResponseDTO = RefreshTokenResponseDTO(token = "newToken", refreshToken = "newRefreshToken")
@@ -160,6 +181,41 @@ class AuthRepoImplTest {
         coVerifySequence {
             authLocalDataSource.getAuthData()
             authLocalDataSource.clearAuthData()
+        }
+    }
+
+    @Test
+    fun `checkVerifyEmail should call remote and update local storage`() = runBlocking {
+        val authData =
+            AuthData(
+                refreshToken = "refreshToken",
+                token = "token",
+                id = 1,
+                isEmailVerified = false,
+                email = "email"
+            )
+
+        val checkVerifyEmailDTO = CheckVerifyEmailDTO(email = authData.email)
+
+        val checkVerifyEmailResponseDTO = CheckVerifyEmailResponseDTO(
+            isVerified = true,
+            message = "message"
+        )
+
+        val newAuthData = authData.copy(isEmailVerified = true)
+
+        coEvery { authLocalDataSource.getAuthData() } returns flowOf(authData)
+
+        coEvery { authRemoteDataSource.checkVerifyEmail(checkVerifyEmailDTO) } returns checkVerifyEmailResponseDTO
+
+        coEvery { authLocalDataSource.saveAuthData(newAuthData) } returns Unit
+
+        authRepoImpl.checkVerifyEmail()
+
+        coVerifySequence {
+            authLocalDataSource.getAuthData()
+            authRemoteDataSource.checkVerifyEmail(checkVerifyEmailDTO)
+            authLocalDataSource.saveAuthData(newAuthData)
         }
     }
 }

@@ -5,6 +5,7 @@ import com.nullpointer.devs.drivers.data.mappers.auth.toAuthData
 import com.nullpointer.devs.drivers.data.mappers.auth.toForgotPasswordDTO
 import com.nullpointer.devs.drivers.data.mappers.auth.toLoginDTO
 import com.nullpointer.devs.drivers.data.mappers.auth.toRegisterDTO
+import com.nullpointer.devs.drivers.data.model.auth.dto.CheckVerifyEmailDTO
 import com.nullpointer.devs.drivers.data.model.auth.dto.RefreshDTO
 import com.nullpointer.devs.drivers.data.remote.auth.AuthRemoteDataSource
 import com.nullpointer.devs.drivers.domain.model.CredentialsData
@@ -86,4 +87,29 @@ class AuthRepoImpl(
             authLocalDataSource.clearAuthData()
         }
     }
+
+    /**
+     * Verifies the email of the authenticated user.
+     *
+     * This function checks the verification status of the user's email by calling the remote data source
+     * and verifying if the email is confirmed. If the email is verified, it updates the local authentication
+     * data to reflect this change and saves it to the local data source.
+     *
+     * @throws IllegalStateException If the authentication data is not found.
+     */
+    override suspend fun checkVerifyEmail() {
+        val authData =
+            authData.firstOrNull() ?: throw IllegalStateException("Auth data must not be null")
+
+        val checkVerifyEmailDTO = CheckVerifyEmailDTO(email = authData.email)
+        val response = authRemoteDataSource.checkVerifyEmail(checkVerifyEmailDTO)
+
+        if (response.isVerified) {
+            val newAuthData = authData.copy(isEmailVerified = true)
+            authLocalDataSource.saveAuthData(newAuthData)
+        }
+    }
+
+
+
 }

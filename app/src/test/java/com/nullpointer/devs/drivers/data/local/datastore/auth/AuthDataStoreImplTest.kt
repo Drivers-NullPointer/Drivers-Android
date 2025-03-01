@@ -25,8 +25,8 @@ class AuthDataStoreImplTest {
             id = 1,
             token = "token",
             refreshToken = "refreshToken",
-            isEmailVerified = true
-
+            isEmailVerified = true,
+            email = "email"
         )
         val autoDataSerializedExpected = Json.encodeToString(authData)
 
@@ -56,7 +56,8 @@ class AuthDataStoreImplTest {
             id = 1,
             token = "token",
             refreshToken = "refreshToken",
-            isEmailVerified = true
+            isEmailVerified = true,
+            email = "email"
         )
 
         // Mock DataStore
@@ -102,7 +103,8 @@ class AuthDataStoreImplTest {
             id = 1,
             token = "token",
             refreshToken = "refreshToken",
-            isEmailVerified = true
+            isEmailVerified = true,
+            email = "email"
         )
 
         // Mock DataStore
