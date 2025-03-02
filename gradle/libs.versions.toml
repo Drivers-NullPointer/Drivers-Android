@@ -1,5 +1,9 @@
 [versions]
-agp = "8.5.0"
+agp = "8.5.2"
+destination = "2.0.0-beta12"
+hiltAndroid = "2.55"
+hiltNavigationCompose = "1.2.0"
+json = "20220924"
 kotlin = "2.1.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -8,12 +12,20 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.3"
 activityCompose = "1.9.0"
 composeBom = "2024.04.01"
-dataStore = "1.1.2"
+logger = "2.2.0"
 mockk = "1.12.0"
+securityCryptoDatastorePreferences = "1.1.1-beta03"
+timber = "5.0.1"
+lifecycleRuntimeComposeAndroid = "2.8.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+compose-destination = { module = "io.github.raamcosta.compose-destinations:core", version.ref = "destination" }
+json = { module = "org.json:json", version.ref = "json" }
+ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "destination" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+logger = { module = "com.orhanobut:logger", version.ref = "logger" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -27,9 +39,16 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.8.0" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version = "1.6.0" }
+retrofit = {group="com.squareup.retrofit2",name="retrofit", version="2.11.0"}
+retrofit-serialization = {group="com.squareup.retrofit2",name="converter-kotlinx-serialization", version="2.11.0" }
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid" }
+security-crypto-datastore-preferences = { module = "io.github.osipxd:security-crypto-datastore-preferences", version.ref = "securityCryptoDatastorePreferences" }
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
+androidx-lifecycle-runtime-compose-android = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose-android", version.ref = "lifecycleRuntimeComposeAndroid" }
+
 
 
 
@@ -40,4 +59,7 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 koverAndroidReport = { id = "org.jetbrains.kotlinx.kover", version = "0.9.1" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version = "2.1.0-1.0.29" }
 

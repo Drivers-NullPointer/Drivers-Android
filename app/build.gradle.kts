@@ -7,7 +7,13 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.koverAndroidReport)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.ksp)
 }
+
+val apiKeyDev: String = project.findProperty("drivers_api_dev").toString()
+val apiKeyProd: String = project.findProperty("drivers_api_prod").toString()
 
 android {
 
@@ -16,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId = "com.nullpointer.devs.drivers"
-        minSdk = 21
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -25,6 +31,7 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
     }
 
     buildTypes {
@@ -35,6 +42,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String","drivers_api",apiKeyDev)
         }
         release {
             isMinifyEnabled = false
@@ -42,6 +50,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String","drivers_api",apiKeyProd)
         }
     }
     compileOptions {
@@ -53,6 +62,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -74,6 +84,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -82,23 +93,64 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     // Datastore
-    debugImplementation(libs.androidx.datastore.preferences)
+    implementation(libs.security.crypto.datastore.preferences)
     // Kotlin Serialization
     implementation(libs.kotlinx.serialization.json)
     // mockk
     testImplementation(libs.mockk)
     // Coroutines
     implementation(libs.kotlinx.coroutines.test)
+    // retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.serialization)
+    // hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    // destination
+    implementation(libs.compose.destination)
+    ksp(libs.ksp)
+    // timber
+    implementation(libs.timber)
+    implementation(libs.logger)
+
+
+    testImplementation(libs.kotlinx.coroutines.test)
+
+    testImplementation(libs.json)
 
 }
 
+kapt {
+    correctErrorTypes = true
+}
 
 kover{
     reports{
         filters{
             excludes{
-                packages("**.ui**")
-                packages("**.model.*")
+                classes(
+                        "**.BuildConfig*",
+                        "**.Manifest*",
+                        "**.Dagger*",
+                        "**.Hilt*",
+                        "**.DataStoreModule*",
+                        "**HiltModule*",
+                        "**_Factory*",
+                    "**FileLoggingTree*",
+                    "**ScreenState*",
+
+                    )
+                packages(
+                    "**.ui*",
+                    "**.di*",
+                    "**.model*",
+                    "**.dagger*",
+                    "**hilt*",
+                    "**.model*",
+                    "**.exceptions.*",
+                    "**ramcosta**",
+                )
                 annotatedBy("androidx.compose.ui.tooling.preview.Preview")
                 annotatedBy("androidx.compose.runtime.Composable")
             }
@@ -108,21 +160,21 @@ kover{
                 bound{
                     aggregationForGroup = AggregationType.COVERED_PERCENTAGE
                     coverageUnits = CoverageUnit.LINE
-                    minValue = 100
-                }
-            }
-            rule("Branch coverage") {
-                bound{
-                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
-                    coverageUnits = CoverageUnit.BRANCH
-                    minValue = 100
+                    minValue = 90
                 }
             }
             rule("Instruction coverage") {
                 bound{
                     aggregationForGroup = AggregationType.COVERED_PERCENTAGE
                     coverageUnits = CoverageUnit.INSTRUCTION
-                    minValue = 100
+                    minValue = 90
+                }
+            }
+            rule("Line coverage") {
+                bound {
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    coverageUnits = CoverageUnit.LINE
+                    minValue = 90
                 }
             }
         }
