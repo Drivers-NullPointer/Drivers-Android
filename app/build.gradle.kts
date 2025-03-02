@@ -117,6 +117,8 @@ dependencies {
 
     testImplementation(libs.kotlinx.coroutines.test)
 
+    testImplementation(libs.json)
+
 }
 
 kapt {
