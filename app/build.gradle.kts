@@ -129,7 +129,6 @@ kover{
             excludes{
                 classes(
                         "**.BuildConfig*",
-                        "**.R*",
                         "**.Manifest*",
                         "**.Dagger*",
                         "**.Hilt*",
