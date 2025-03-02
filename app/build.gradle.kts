@@ -114,6 +114,9 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.logger)
 
+
+    testImplementation(libs.kotlinx.coroutines.test)
+
 }
 
 kapt {

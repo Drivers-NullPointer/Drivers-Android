@@ -77,7 +77,7 @@ class ForgotPasswordUseCaseImpl(
                 Timber.e("Too many requests while recovering password: $exception")
                 R.string.error_too_many_requests
             }
-            is AuthException.LoginException.ServerException -> {
+            is AuthException.ForgotException.ServerException -> {
                 Timber.e("Server error while recovering password: $exception")
                 R.string.error_server
             }
