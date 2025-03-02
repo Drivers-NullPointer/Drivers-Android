@@ -137,10 +137,8 @@ kover{
                         "**_Factory*",
                     "**FileLoggingTree*",
                     "**ScreenState*",
-                    "**SigningInterceptor*",
-                    "**TimberLoggingInterceptor*",
-                    "**TokenAuthenticator*",
-                )
+
+                    )
                 packages(
                     "**.ui*",
                     "**.di*",
