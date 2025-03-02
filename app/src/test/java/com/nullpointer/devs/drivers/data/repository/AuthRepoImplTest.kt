@@ -136,6 +136,7 @@ class AuthRepoImplTest {
 
         authRepoImpl.forgotPassword(forgotPasswordData)
 
+
         coVerify { authRemoteDataSource.forgotPassword(forgotPasswordDTO) }
     }
 
