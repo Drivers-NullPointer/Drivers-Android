@@ -133,6 +133,11 @@ kover{
                         "**.DataStoreModule*",
                         "**HiltModule*",
                         "**_Factory*",
+                    "**FileLoggingTree*",
+                    "**ScreenState*",
+                    "**SigningInterceptor*",
+                    "**TimberLoggingInterceptor*",
+                    "**TokenAuthenticator*",
                 )
                 packages(
                     "**.ui*",
