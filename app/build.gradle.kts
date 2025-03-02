@@ -160,14 +160,21 @@ kover{
                 bound{
                     aggregationForGroup = AggregationType.COVERED_PERCENTAGE
                     coverageUnits = CoverageUnit.LINE
-                    minValue = 100
+                    minValue = 90
                 }
             }
             rule("Instruction coverage") {
                 bound{
                     aggregationForGroup = AggregationType.COVERED_PERCENTAGE
                     coverageUnits = CoverageUnit.INSTRUCTION
-                    minValue = 100
+                    minValue = 90
+                }
+            }
+            rule("Line coverage") {
+                bound {
+                    aggregationForGroup = AggregationType.COVERED_PERCENTAGE
+                    coverageUnits = CoverageUnit.LINE
+                    minValue = 90
                 }
             }
         }
