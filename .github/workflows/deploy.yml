@@ -19,6 +19,9 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
+      - name: Grant execute permission to Gradle wrapper
+        run: chmod +x gradlew
+
       - name: Build APK/AAB
         run: ./gradlew assembleRelease  # o el comando adecuado para tu app
 
