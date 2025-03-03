@@ -23,10 +23,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build APK/AAB
-        run: ./gradlew assembleRelease
+        run: ./gradlew bundleRelease
 
       - name: List build outputs
-        run: ls -R app/build/outputs || true
+        run: ls -R app/build/outputs/bundle/release || true
 
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1.1.3
