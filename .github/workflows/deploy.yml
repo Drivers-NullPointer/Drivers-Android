@@ -21,10 +21,12 @@ jobs:
       - name: Build APK/AAB
         run: ./gradlew assembleRelease  # o el comando adecuado para tu app
 
-      - name: Upload to Google Play (Internal Testing)
-        uses: r0adkll/upload-google-play-action@v1
+      - name: Upload to Google Play
+        uses: r0adkll/upload-google-play@v1.1.3
         with:
-          serviceAccountJsonKey: ${{ secrets.GOOGLE_PLAY_JSON }}
-          packageName: com.nullpointer.devs.drivers  # nombre del paquete de tu app
-          releaseFile: app/build/outputs/bundle/release/app-release.aab  # archivo AAB generado
-          track: internal  # para pruebas internas
+          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_JSON }}
+          packageName: com.nullpointer.devs.drivers
+          releaseFiles: app-release.aab
+          track: internal
+          status: completed
+
