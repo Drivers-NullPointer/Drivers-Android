@@ -3,7 +3,7 @@ name: Deploy to Google Play (Internal Testing)
 on:
   push:
     branches:
-      - main
+      - develop
 
 jobs:
   build:
