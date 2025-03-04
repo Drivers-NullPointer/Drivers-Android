@@ -25,11 +25,12 @@ jobs:
       - name: Build APK/AAB
         run: ./gradlew bundleRelease
 
-      - name: List build outputs
-        run: ls -R app/build/outputs/bundle/release || true
-
-      - name: Set file permissions
-        run: chmod +r app/build/outputs/bundle/release/app-release.aab
+      - name: Create service account JSON file
+        run: |
+          echo "${{ secrets.GOOGLE_PLAY_JSON }}" | sed 's/\\n/\n/g' > service-account.json
+      
+      - name: Verify JSON file
+        run: cat service-account.json
 
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1.1.3
