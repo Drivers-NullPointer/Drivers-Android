@@ -70,4 +70,4 @@ jobs:
           packageName: com.nullpointer.devs.drivers
           releaseFiles: '${{ github.workspace }}/app-release.aab'
           track: internal
-          status: draft
+          status: completed
