@@ -25,17 +25,10 @@ jobs:
       - name: Build APK/AAB
         run: ./gradlew bundleRelease
 
-      - name: Create service account JSON file
-        run: |
-          echo "${{ secrets.GOOGLE_PLAY_JSON }}" | sed 's/\\n/\n/g' > service-account.json
-      
-      - name: Verify JSON file
-        run: cat service-account.json
-
       - name: Upload to Google Play
         uses: r0adkll/upload-google-play@v1.1.3
         with:
-          serviceAccountJson: ${{ secrets.GOOGLE_PLAY_JSON }}
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_JSON }}
           packageName: com.nullpointer.devs.drivers
           releaseFiles: app/build/outputs/bundle/release/app-release.aab
           track: internal
